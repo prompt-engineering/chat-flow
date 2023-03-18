@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://www.clickprompt.org/
+
+# Sitemaps
+Sitemap: https://www.clickprompt.org/sitemap.xml
