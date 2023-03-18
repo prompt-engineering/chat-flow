@@ -9,17 +9,17 @@ import * as UserAPI from "@/api/user";
 export default async function ChatGPTPage() {
   const hashedKey = cookies().get(SITE_USER_COOKIE)?.value as string;
 
-  let isLoggedin = false;
+  let isLogin: boolean;
   try {
-    isLoggedin = await UserAPI.isLoggedIn(hashedKey);
+    isLogin = await UserAPI.isLoggedIn(hashedKey);
   } catch (e) {
     console.error(e);
-    isLoggedin = false;
+    isLogin = false;
   }
 
   return (
     <div className='bg-[#343541] flex h-[85vh] overflow-y-auto rounded-md items-center justify-center'>
-      <ChatGPTApp loggedIn={isLoggedin} />
+      <ChatGPTApp loggedIn={isLogin} />
     </div>
   );
 }

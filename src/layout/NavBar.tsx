@@ -26,6 +26,10 @@ export default async function NavBar({ locale }: { locale: string }) {
       title: "Flow",
       url: `/click-flow/`,
     },
+    {
+      title: "ChatApp",
+      url: `/chatgpt/`,
+    },
   ];
 
   return (
