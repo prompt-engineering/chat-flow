@@ -3,6 +3,8 @@
 [![ci](https://github.com/prompt-engineering/chat-flow/actions/workflows/ci.yaml/badge.svg)](https://github.com/prompt-engineering/chat-flow/actions/workflows/ci.yaml)
 ![GitHub](https://img.shields.io/github/license/prompt-engineering/chat-flow)
 
+Screenshots:
+
 ![](docs/screenshot.jpeg)
 
 [English](./README.md) | 简体中文
@@ -11,7 +13,7 @@
 
 要求：
 
-- 使用 ChatFlow 作为模板
+- 使用 ChatFlow 作为模板（点击上方的 "Use this template" 按钮，创建一个新的仓库）
 - 注册 Vercel 帐户
 
 ## 使用

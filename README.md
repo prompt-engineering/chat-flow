@@ -4,6 +4,8 @@
 ![GitHub](https://img.shields.io/github/license/prompt-engineering/chat-flow)
 [![Discord](https://img.shields.io/discord/1082563233593966612)](https://discord.gg/FSWXq4DmEj)
 
+Screenshots:
+
 ![](docs/screenshot.jpeg)
 
 English | [简体中文](./README.zh-CN.md)
