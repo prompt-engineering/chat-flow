@@ -16,6 +16,23 @@ Screenshots:
 - 使用 ChatFlow 作为模板（点击上方的 "Use this template" 按钮，创建一个新的仓库）
 - 注册 Vercel 帐户
 
+# Development
+
+Technical documentation:
+
+- Flowchart
+    - DotParser, parse dot file to graph data
+    - dagre, layout graph data
+    - ReactFlow, render graph data
+- Flow Functions
+    - jsonpath-plus, parse jsonpath
+    - expr-eval, parse expression
+- Flow Components
+    - JsonViewer, render json data
+    - DataTable, render table data
+- Others
+    - MarkdownViewer, render markdown data
+
 ## 使用
 
 1. 登录到您的 Vercel 帐户并单击 “New Project”。

@@ -23,6 +23,23 @@ Prerequisites:
 - ChatFlow repo fork
 - A Vercel account
 
+# Development
+
+Technical documentation:
+
+- Flowchart
+    - DotParser, parse dot file to graph data
+    - dagre, layout graph data
+    - ReactFlow, render graph data
+- Flow Functions
+    - jsonpath-plus, parse jsonpath
+    - expr-eval, parse expression
+- Flow Components
+    - JsonViewer, render json data
+    - DataTable, render table data
+- Others
+    - MarkdownViewer, render markdown data
+
 ## Connect Your Repository
 
 1. Login to your Vercel account and click on "New Project".
