@@ -26,8 +26,8 @@ model chats {
   id              Int      @id @default(autoincrement())
   conversation_id Int
   role            String
-  content         String
-  name            String?
+  content         String   @db.VarChar(4096)
+  name            String?  @db.VarChar(512)
   created_at      DateTime @default(now())
 }
 
