@@ -9,17 +9,22 @@ Screenshots:
 
 [English](./README.md) | 简体中文
 
-# 部署 ChatFlow
+# 在 Vercel 上部署 ChatFlow，使用 Planetscale
 
-要求：
+按照以下步骤，在 Vercel 上部署 ChatFlow，使用由 Planetscale 提供的无服务器 MySQL 数据库：
 
-1.  从 Github 上使用 [ChatFlow](https://github.com/prompt-engineering/chat-flow) 作为模板。
-2.  创建 Vercel 帐户，并连接到 GitHub。
-3.  创建 [Planetscale](https://app.planetscale.com) 帐户，用于 Serverless MySQL。
-4.  设置数据库和分支：
-    1.  运行 `pscale auth login` 命令登录 Planetscale 帐户。
-    2.  运行 `pscale password create <DATABASE_NAME> <BRANCH_NAME> <PASSWORD_NAME>` 命令创建密码。
-    3.  运行 `npx prisma db push` 命令以将数据库推送到 Planetscale。
+1.  从 GitHub 克隆 [ChatFlow 模板](https://github.com/prompt-engineering/chat-flow)。
+2.  创建 Vercel 帐户，并将其连接到 GitHub 帐户。
+3.  创建 [Planetscale](https://app.planetscale.com) 帐户。
+4.  设置 Planetscale 数据库：
+    1.  使用 `pscale auth login` 登录 Planetscale 帐户。
+    2.  使用 `pscale password create <DATABASE_NAME> <BRANCH_NAME> <PASSWORD_NAME>` 创建密码。
+    3.  使用 `npx prisma db push` 将数据库推送到 Planetscale。
+5.  配置 Vercel 环境：
+    - 将 `DATABASE_URL` 设置为 Planetscale 数据库的 URL。
+    - 使用 `node scripts/gen-enc.js` 生成加密密钥，并将其设置为 `ENC_KEY`。
+
+完成这些步骤后，您的 ChatFlow 将在 Vercel 上部署，并使用 Planetscale 的无服务器 MySQL 数据库。
 
 # Development
 

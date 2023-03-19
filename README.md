@@ -14,21 +14,22 @@ Join us:
 
 [![Chat Server](https://img.shields.io/badge/chat-discord-7289da.svg)](https://discord.gg/FSWXq4DmEj)
 
-# DEPLOY (On vercel)
+# Deploy ChatFlow on Vercel with Planetscale
 
-Deploying a Next.js Application on Vercel
+Follow these steps to deploy ChatFlow on Vercel with a serverless MySQL database provided by Planetscale:
 
-1.  Use [ChatFlow](https://github.com/prompt-engineering/chat-flow) as a template from Github.
+1.  Clone the [ChatFlow template](https://github.com/prompt-engineering/chat-flow) from GitHub.
 2.  Create a Vercel account and connect it to your GitHub account.
-3.  Create a [Planetscale](https://app.planetscale.com) account for serverless MySQL.
-4.  Set up databases and branches:
-    1.  Run `pscale auth login` to log in to your Planetscale account.
-    2.  Run `pscale password create <DATABASE_NAME> <BRANCH_NAME> <PASSWORD_NAME>` to create a password.
-    3.  Run `npx prisma db push` to push your database to Planetscale.
-5. Config Vercel Environment
-    - `DATABASE_URL` from Planetscale
-    - `ENC_KEY` by `node scripts/gen-enc.js`
+3.  Create a [Planetscale](https://app.planetscale.com) account.
+4.  Set up your Planetscale database:
+    1.  Log in to your Planetscale account with `pscale auth login`.
+    2.  Create a password with `pscale password create <DATABASE_NAME> <BRANCH_NAME> <PASSWORD_NAME>`.
+    3.  Push your database to Planetscale with `npx prisma db push`.
+5.  Configure your Vercel environment:
+    - Set `DATABASE_URL` to your Planetscale database URL.
+    - Generate an encryption key with `node scripts/gen-enc.js` and set it as `ENC_KEY`.
 
+With these steps completed, your ChatFlow will be deployed on Vercel with a Planetscale serverless MySQL database.
 
 # Development
 
