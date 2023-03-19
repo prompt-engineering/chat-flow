@@ -28,17 +28,17 @@ Prerequisites:
 Technical documentation:
 
 - Flowchart
-    - DotParser, parse dot file to graph data
-    - dagre, layout graph data
-    - ReactFlow, render graph data
+  - DotParser, parse dot file to graph data
+  - dagre, layout graph data
+  - ReactFlow, render graph data
 - Flow Functions
-    - jsonpath-plus, parse jsonpath
-    - expr-eval, parse expression
+  - jsonpath-plus, parse jsonpath
+  - expr-eval, parse expression
 - Flow Components
-    - JsonViewer, render json data
-    - DataTable, render table data
+  - JsonViewer, render json data
+  - DataTable, render table data
 - Others
-    - MarkdownViewer, render markdown data
+  - MarkdownViewer, render markdown data
 
 ## Connect Your Repository
 
