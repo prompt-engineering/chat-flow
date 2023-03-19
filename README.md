@@ -18,10 +18,11 @@ Join us:
 
 Deploying a Next.js Application on Vercel
 
-Prerequisites:
-
-- ChatFlow repo fork
-- A Vercel account
+1. use [ChatFlow](https://github.com/prompt-engineering/chat-flow) as Template from Github
+2. create Vercel account, and connect to GitHub
+3. create [Planetscale](https://app.planetscale.com) account, for Serverless MySQL
+   - Create a database in Planetscale
+   - Config database in You Vercel accounts > settings/environment-variables
 
 # Development
 

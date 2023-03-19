@@ -1,0 +1,92 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+// create table chats
+// (
+//     id              int auto_increment comment 'Chat ID'
+//         primary key,
+//     conversation_id bigint unsigned                    not null comment 'Conversation ID that the chat belongs to',
+//     role            varchar(10)                        not null comment 'The role of the author of this message. ChatCompletionRequestMessageRoleEnum',
+//     content         varchar(4096) charset utf8         not null comment 'The contents of the message',
+//     name            varchar(512) charset utf8          null comment 'The name of the user in a multi-user chat',
+//     created_at      datetime default CURRENT_TIMESTAMP not null,
+//     constraint id
+//         unique (id)
+// );
+model Chat {
+  id              Int      @id @default(autoincrement())
+  conversation_id Int
+  role            String
+  content         String
+  name            String?
+  created_at      DateTime @default(now())
+}
+
+// create table conversations
+// (
+//     id         bigint unsigned auto_increment comment 'Conversation ID'
+//         primary key,
+//     user_id    bigint unsigned                                     not null comment 'User ID that the conversation belongs to',
+//     name       varchar(255) charset utf8 default 'Default name'    not null invisible comment 'conversation name CAN DULICATED',
+//     deleted    tinyint(1)                default 0                 not null comment 'is conversation has been deleted or not',
+//     created_at datetime                  default CURRENT_TIMESTAMP not null
+// );
+model Conversation {
+  id         Int      @id @default(autoincrement())
+  user_id    Int
+  name       String   @default("Default name") @invisible
+  deleted    Boolean  @default(false)
+  created_at DateTime @default(now())
+}
+
+// -- for example, a user can save a custom field with the name "story:123" and the value "blablablabla"
+// -- story:123 is the type_name:id => type_value
+// create table custom_field
+// (
+// --     type id is a unique id for each custom field
+//     id         bigint unsigned auto_increment comment 'Custom Field ID'
+//         primary key,
+//     user_id    bigint unsigned not null comment 'User ID that the custom field belongs to',
+//     type_id    bigint unsigned not null comment 'custom type id',
+//     type_name  varchar(255) charset utf8 default 'Default name' not null invisible comment 'custom field name',
+//     type_value varchar(32768) charset utf8 default 'Default value' not null invisible comment 'custom field value',
+//     created_at datetime default CURRENT_TIMESTAMP not null
+// );
+
+model CustomField {
+  id         Int      @id @default(autoincrement())
+  user_id    Int
+  type_id    Int
+  type_name  String   @default("Default name") @invisible
+  type_value String   @default("Default value") @invisible
+  created_at DateTime @default(now())
+}
+
+// create table users
+// (
+//     id            bigint unsigned auto_increment comment 'User ID',
+//     key_hashed    varchar(64)                        not null comment 'hash of openai key',
+//     iv            varchar(32)                        not null comment 'iv of openai key',
+//     key_encrypted varchar(255)                       not null comment 'openai key, but it''s encrypted',
+//     deleted       tinyint  default 0                 not null comment 'is user has been deleted or not',
+//     created_at    datetime default CURRENT_TIMESTAMP not null,
+//     primary key (id, key_hashed),
+//     constraint id
+//         unique (id)
+// );
+model User {
+  id            Int      @id @default(autoincrement())
+  key_hashed    String
+  iv            String
+  key_encrypted String
+  deleted       Boolean  @default(false)
+  created_at    DateTime @default(now())
+}
