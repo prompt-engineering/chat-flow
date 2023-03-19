@@ -13,8 +13,13 @@ Screenshots:
 
 要求：
 
-- 使用 ChatFlow 作为模板（点击上方的 "Use this template" 按钮，创建一个新的仓库）
-- 注册 Vercel 帐户
+1.  从 Github 上使用 [ChatFlow](https://github.com/prompt-engineering/chat-flow) 作为模板。
+2.  创建 Vercel 帐户，并连接到 GitHub。
+3.  创建 [Planetscale](https://app.planetscale.com) 帐户，用于 Serverless MySQL。
+4.  设置数据库和分支：
+    1.  运行 `pscale auth login` 命令登录 Planetscale 帐户。
+    2.  运行 `pscale password create <DATABASE_NAME> <BRANCH_NAME> <PASSWORD_NAME>` 命令创建密码。
+    3.  运行 `npx prisma db push` 命令以将数据库推送到 Planetscale。
 
 # Development
 

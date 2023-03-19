@@ -43,7 +43,7 @@ model Chat {
 model Conversation {
   id         Int      @id @default(autoincrement())
   user_id    Int
-  name       String   @default("Default name") @invisible
+  name       String   @default("Default name")
   deleted    Boolean  @default(false)
   created_at DateTime @default(now())
 }
@@ -66,8 +66,8 @@ model CustomField {
   id         Int      @id @default(autoincrement())
   user_id    Int
   type_id    Int
-  type_name  String   @default("Default name") @invisible
-  type_value String   @default("Default value") @invisible
+  type_name  String   @default("Default name")
+  type_value String   @default("Default value")
   created_at DateTime @default(now())
 }
 

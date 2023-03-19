@@ -18,11 +18,13 @@ Join us:
 
 Deploying a Next.js Application on Vercel
 
-1. use [ChatFlow](https://github.com/prompt-engineering/chat-flow) as Template from Github
-2. create Vercel account, and connect to GitHub
-3. create [Planetscale](https://app.planetscale.com) account, for Serverless MySQL
-   - Create a database in Planetscale
-   - Config database in You Vercel accounts > settings/environment-variables
+1.  Use [ChatFlow](https://github.com/prompt-engineering/chat-flow) as a template from Github.
+2.  Create a Vercel account and connect it to your GitHub account.
+3.  Create a [Planetscale](https://app.planetscale.com) account for serverless MySQL.
+4.  Set up databases and branches:
+    1.  Run `pscale auth login` to log in to your Planetscale account.
+    2.  Run `pscale password create <DATABASE_NAME> <BRANCH_NAME> <PASSWORD_NAME>` to create a password.
+    3.  Run `npx prisma db push` to push your database to Planetscale.
 
 # Development
 
