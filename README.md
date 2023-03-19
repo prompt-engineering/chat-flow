@@ -25,9 +25,10 @@ Deploying a Next.js Application on Vercel
     1.  Run `pscale auth login` to log in to your Planetscale account.
     2.  Run `pscale password create <DATABASE_NAME> <BRANCH_NAME> <PASSWORD_NAME>` to create a password.
     3.  Run `npx prisma db push` to push your database to Planetscale.
-5. Config Vercel Enviroment
+5. Config Vercel Environment
     - `DATABASE_URL` from Planetscale
-    - `ENC_KEY`
+    - `ENC_KEY` by `node scripts/gen-enc.js`
+
 
 # Development
 
