@@ -10,6 +10,8 @@ Screenshots:
 
 English | [简体中文](./README.zh-CN.md)
 
+Online Demo: https://prompt.phodal.com/
+
 Join us:
 
 [![Chat Server](https://img.shields.io/badge/chat-discord-7289da.svg)](https://discord.gg/FSWXq4DmEj)

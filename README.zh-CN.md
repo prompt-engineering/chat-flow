@@ -7,6 +7,8 @@ Screenshots:
 
 ![](docs/screenshot.jpeg)
 
+Online Demo: https://prompt.phodal.com/
+
 [English](./README.md) | 简体中文
 
 # 在 Vercel 上部署 ChatFlow，使用 Planetscale
