@@ -22,7 +22,7 @@ datasource db {
 //     constraint id
 //         unique (id)
 // );
-model Chat {
+model chats {
   id              Int      @id @default(autoincrement())
   conversation_id Int
   role            String
@@ -40,7 +40,7 @@ model Chat {
 //     deleted    tinyint(1)                default 0                 not null comment 'is conversation has been deleted or not',
 //     created_at datetime                  default CURRENT_TIMESTAMP not null
 // );
-model Conversation {
+model conversations {
   id         Int      @id @default(autoincrement())
   user_id    Int
   name       String   @default("Default name")
@@ -62,7 +62,7 @@ model Conversation {
 //     created_at datetime default CURRENT_TIMESTAMP not null
 // );
 
-model CustomField {
+model custom_field {
   id         Int      @id @default(autoincrement())
   user_id    Int
   type_id    Int
@@ -83,7 +83,7 @@ model CustomField {
 //     constraint id
 //         unique (id)
 // );
-model User {
+model users {
   id            Int      @id @default(autoincrement())
   key_hashed    String
   iv            String
