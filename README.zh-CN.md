@@ -43,12 +43,6 @@ Technical documentation:
 - Others
   - MarkdownViewer, render markdown data
 
-## 使用
-
-1. 登录到您的 Vercel 帐户并单击 “New Project”。
-2. 选择您的 Git 代码仓库，其中存储着您的 Next.js 应用程序。
-3. Vercel 将自动检测到它是一个 Next.js 应用程序，并配置构建设置。
-
 ## LICENSE
 
 This code is distributed under the MIT license. See [LICENSE](./LICENSE) in this directory.

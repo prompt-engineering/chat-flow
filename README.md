@@ -48,12 +48,6 @@ Technical documentation:
 - Others
   - MarkdownViewer, render markdown data
 
-## Connect Your Repository
-
-1. Login to your Vercel account and click on "New Project".
-2. Select your Git repository where your Next.js application is hosted.
-3. Vercel will automatically detect that it is a Next.js application and configure the build settings.
-
 ## LICENSE
 
 This code is distributed under the MIT license. See [LICENSE](./LICENSE) in this directory.
