@@ -24,18 +24,16 @@ import { Node } from "unist";
  *
  */
 export async function codeFromMarkdown(markdown: string): Promise<CodeBlock[]> {
-  const ast = await unified()
-    .use(remarkParse)
-    .parse(markdown);
+  const ast = await unified().use(remarkParse).parse(markdown);
 
   const codeBlocks: CodeBlock[] = [];
 
   ast.children.forEach((node) => {
     if (node.type === "code") {
-      const codeNode = node as Node & { lang: string; value: string; };
+      const codeNode = node as Node & { lang: string; value: string };
       codeBlocks.push({
         lang: codeNode.lang,
-        code: codeNode.value
+        code: codeNode.value,
       });
     }
   });
@@ -43,8 +41,7 @@ export async function codeFromMarkdown(markdown: string): Promise<CodeBlock[]> {
   return codeBlocks;
 }
 
-
 export type CodeBlock = {
   lang: string;
   code: string;
-}
+};

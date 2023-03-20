@@ -42,7 +42,7 @@ export class ReplService {
       },
       complete: () => {
         console.log("complete");
-      }
+      },
     });
   }
 
@@ -52,7 +52,7 @@ export class ReplService {
     this.idSubjectMap[this.indexId] = subject;
     return {
       id: this.indexId,
-      subject
+      subject,
     };
   }
 

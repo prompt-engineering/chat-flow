@@ -50,4 +50,3 @@ function exprMath(value: any, updatePropKey: string | undefined, expr: string) {
 
   return executeEval(expr, value);
 }
-
