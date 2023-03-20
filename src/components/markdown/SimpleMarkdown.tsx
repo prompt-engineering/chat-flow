@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useState } from "react";
+import React from "react";
 import ReactMarkdown, { Components } from "react-markdown";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { Code, Divider, Heading, Link, ListItem, OrderedList, Text, UnorderedList } from "@chakra-ui/layout";
@@ -11,8 +11,7 @@ import { chakra } from "@chakra-ui/system";
 import remarkGfm from "remark-gfm";
 import MermaidWrapper from "./MermaidWrapper";
 import { ReplService } from "@/flows/repl/ReplService";
-import { Box, Button } from "@chakra-ui/react";
-import { ReplResult } from "@/flows/repl/ascode";
+import { ReplEmbed } from "@/components/markdown/ReplEmbed";
 
 // MIT License
 //
@@ -150,40 +149,6 @@ export const defaults: Defaults = {
   td: (props) => <Td>{props.children}</Td>,
   th: (props) => <Th>{props.children}</Th>,
 };
-
-function ReplEmbed({ code, repl }: { code: string; repl: ReplService }) {
-  const [result, setResult] = useState<string | undefined>(undefined);
-  const [isRunning, setIsRunning] = useState(false);
-
-  repl.getSubject().subscribe({
-    next: (msg: ReplResult) => {
-      console.log("msg", msg);
-
-      setResult(msg as any);
-      setIsRunning(false);
-    },
-    error: () => {
-      setResult("Error");
-      setIsRunning(false);
-    },
-    complete: () => {
-      setIsRunning(false);
-    },
-  });
-
-  const runAllCell = useCallback(() => {
-    setIsRunning(true);
-    repl.eval(code, -1);
-  }, [setIsRunning, repl]);
-
-  return (
-    <Box>
-      <Button onClick={runAllCell}>Run</Button>
-      {isRunning && <Text>Running...</Text>}
-      {result && <Text>{result}</Text>}
-    </Box>
-  );
-}
 
 function SimpleMarkdown({ content, replService }: { content: string; replService?: ReplService | undefined }) {
   console.log(replService);
