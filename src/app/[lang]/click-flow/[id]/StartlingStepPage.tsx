@@ -99,6 +99,7 @@ function StartlingStepPage({ flow, id, i18n }: StepPageProps) {
                       flow={ flow }
                       step={ step }
                       key={ index }
+                      replService={ replService }
                       onCache={ updateCached }
                       cachedValue={ cachedValue }
                       conversationId={ conversationId }

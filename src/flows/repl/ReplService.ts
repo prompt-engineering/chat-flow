@@ -46,6 +46,10 @@ export class ReplService {
     });
   }
 
+  getSubject() {
+    return this.subject;
+  }
+
   register() {
     this.indexId += 1;
     const subject = new Subject<any>();

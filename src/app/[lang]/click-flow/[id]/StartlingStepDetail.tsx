@@ -17,6 +17,7 @@ import CopyComponent from "@/components/CopyComponent";
 import PostFlowAction from "@/flows/components/PostFlowAction";
 import PreFlowAction from "@/flows/components/PreFlowAction";
 import { fillStepWithValued, FlowStep } from "@/flows/types/flow-step";
+import { ReplService } from "@/flows/repl/ReplService";
 
 type StepProps = {
   index: number;
@@ -27,6 +28,8 @@ type StepProps = {
   conversationId?: number;
   updateConversationId?: (conversationId: number) => void;
   onStepComplete: (step: number) => void;
+
+  replService?: ReplService | undefined;
 };
 
 function StartlingStepDetail({
@@ -38,6 +41,7 @@ function StartlingStepDetail({
   conversationId,
   updateConversationId,
   onStepComplete,
+  replService,
 }: StepProps) {
   const [response, setResponse] = React.useState<string | undefined>(undefined);
 
@@ -87,7 +91,7 @@ function StartlingStepDetail({
       <HumanBlock direction='row' justify='space-between'>
         <Avatar bg='teal.500' name={flow.author} size='sm' mr={2} />
         <Box w='100%' h='100%'>
-          <AskRenderer step={step} onAskUpdate={setAsk} cachedValue={cachedValue} />
+          <AskRenderer step={step} onAskUpdate={setAsk} cachedValue={cachedValue} replService={replService}/>
         </Box>
       </HumanBlock>
       {(!response || /** disable if stepGuide is false */ !flow.stepGuide) && (
