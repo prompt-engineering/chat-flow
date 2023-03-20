@@ -7,11 +7,13 @@ import { ResponseCreateConversation } from "@/pages/api/chatgpt/conversation";
 import { createConversation } from "@/api/conversation";
 import { sendMessage } from "@/api/chat";
 import { ResponseSend } from "@/pages/api/chatgpt/chat";
-import { Button } from "@/components/ChakraUI";
+import {Box, Button} from "@/components/ChakraUI";
 import { BeatLoader } from "react-spinners";
-import { ClickPromptBird } from "@/components/ClickPrompt/ClickPromptButton";
+import {ClickPromptBird} from "@/components/ClickPrompt/ClickPromptButton";
 import { ButtonSize, StyledPromptButton } from "./Button.shared";
 import { LoggingDrawer } from "@/components/ClickPrompt/LoggingDrawer";
+import SimpleMarkdown from "@/components/markdown/SimpleMarkdown";
+import CopyComponent from "@/components/CopyComponent";
 
 export type ExecButtonProps = {
   loading?: boolean;
@@ -86,14 +88,17 @@ function ExecutePromptButton(props: ExecButtonProps) {
 
   return (
     <>
-      <StyledPromptButton>
-        <Button colorScheme='twitter' className='bg-blue' onClick={handleClick}>
-          {props.children}
-          {!isLoading && <Text>Prompt</Text>}
-          {isLoading && <BeatLoader size={8} color='black' />}
-        </Button>
-        <ClickPromptBird />
-      </StyledPromptButton>
+      <Box gap='2' ml='2' flex='2'>
+        <CopyComponent value={props.text} />
+        <StyledPromptButton>
+          <Button colorScheme='twitter' className='bg-blue' onClick={handleClick}>
+            {props.children}
+            {!isLoading && <Text>Prompt</Text>}
+            {isLoading && <BeatLoader size={8} color='black' />}
+          </Button>
+          <ClickPromptBird />
+        </StyledPromptButton>
+      </Box>
       {!hasLogin && LoggingDrawer(isOpen, handleClose, hasLogin, props, updateLoginStatus)}
     </>
   );
