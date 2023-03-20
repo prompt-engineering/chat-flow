@@ -63,6 +63,7 @@
     "reactflow": "^11.6.0",
     "remark-gfm": "^3.0.1",
     "remirror": "^2.0.26",
+    "rxjs": "^7.8.0",
     "server-only": "^0.0.1",
     "sharp": "^0.31.3",
     "svg-pan-zoom": "^3.6.1",
