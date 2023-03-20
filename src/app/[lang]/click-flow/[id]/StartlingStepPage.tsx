@@ -26,7 +26,7 @@ function StartlingStepPage({ flow, id, i18n }: StepPageProps) {
     if (flow.replService) {
       try {
         const host = process.env.REPL_SERVER ? process.env.REPL_SERVER : "127.0.0.1:8080";
-        const subject = webSocket(`ws://${ host }/repl`);
+        const subject = webSocket(`ws://${host}/repl`);
 
         setReplService(new ReplService(subject as WebSocketSubject<any>));
       } catch (e) {
@@ -67,53 +67,52 @@ function StartlingStepPage({ flow, id, i18n }: StepPageProps) {
 
   return (
     <>
-      { flow && (
+      {flow && (
         <>
-          <Flex direction="column" gap="4">
+          <Flex direction='column' gap='4'>
             <Box>
               <Breadcrumb>
                 <BreadcrumbItem>
-                  <BreadcrumbLink
-                    href={ `/${ i18n.locale }/click-flow/` }>{ dict["by-each-step-samples"] }</BreadcrumbLink>
+                  <BreadcrumbLink href={`/${i18n.locale}/click-flow/`}>{dict["by-each-step-samples"]}</BreadcrumbLink>
                 </BreadcrumbItem>
                 <BreadcrumbItem>
-                  <BreadcrumbLink href={ `/${ i18n.locale }/click-flow/${ id }` }>{ flow.name }</BreadcrumbLink>
+                  <BreadcrumbLink href={`/${i18n.locale}/click-flow/${id}`}>{flow.name}</BreadcrumbLink>
                 </BreadcrumbItem>
               </Breadcrumb>
             </Box>
 
-            { flow.explain && (
-              <Box style={ { position: "relative", height: "320px" } }>
-                <FlowExplain step={ flow } />
+            {flow.explain && (
+              <Box style={{ position: "relative", height: "320px" }}>
+                <FlowExplain step={flow} />
               </Box>
-            ) }
+            )}
 
-            <Heading as="h4">{ flow.name }</Heading>
+            <Heading as='h4'>{flow.name}</Heading>
 
-            <SimpleGrid columns={ 1 } spacing={ 4 }>
-              { flow.steps.map(
+            <SimpleGrid columns={1} spacing={4}>
+              {flow.steps.map(
                 (step, index) =>
                   (index <= currentStep || !flow.stepGuide) /** show all if stepGuide is falsey */ && (
                     <StartlingStepDetail
-                      index={ index }
-                      flow={ flow }
-                      step={ step }
-                      key={ index }
-                      replService={ replService }
-                      onCache={ updateCached }
-                      cachedValue={ cachedValue }
-                      conversationId={ conversationId }
-                      updateConversationId={ updateConversationId }
-                      onStepComplete={ (index) => setCurrentStep(index + 1) }
+                      index={index}
+                      flow={flow}
+                      step={step}
+                      key={index}
+                      replService={replService}
+                      onCache={updateCached}
+                      cachedValue={cachedValue}
+                      conversationId={conversationId}
+                      updateConversationId={updateConversationId}
+                      onStepComplete={(index) => setCurrentStep(index + 1)}
                     />
-                  )
-              ) }
+                  ),
+              )}
 
-              <div ref={ bottomAnchor }></div>
+              <div ref={bottomAnchor}></div>
             </SimpleGrid>
           </Flex>
         </>
-      ) }
+      )}
     </>
   );
 }

@@ -8,7 +8,9 @@ import { ReplService } from "@/flows/repl/ReplService";
 import { FlowMarkdownWrapper } from "@/flows/components/FlowMarkdownWrapper";
 
 type AskRendererProps = {
-  step: FlowStep; onAskUpdate: (ask: string) => void; cachedValue: Record<number, any>;
+  step: FlowStep;
+  onAskUpdate: (ask: string) => void;
+  cachedValue: Record<number, any>;
   replService?: ReplService | undefined;
 };
 
@@ -34,11 +36,11 @@ export function AskRenderer({ step, onAskUpdate, cachedValue, replService }: Ask
   if (step.markdownEditor) {
     return (
       <FlowMarkdownWrapper
-        text={ value }
-        onChange={ (text) => {
+        text={value}
+        onChange={(text) => {
           setValue(text);
           onAskUpdate(text);
-        } }
+        }}
       />
     );
   }
@@ -46,18 +48,18 @@ export function AskRenderer({ step, onAskUpdate, cachedValue, replService }: Ask
   if (askTask.replaced) {
     return (
       <StyledTextarea
-        className="bg-white"
-        value={ value }
-        ref={ ref }
-        onChange={ (event) => {
+        className='bg-white'
+        value={value}
+        ref={ref}
+        onChange={(event) => {
           setValue(event.target.value);
           onAskUpdate(event.target.value);
-        } }
+        }}
       />
     );
   }
 
-  return <SimpleMarkdown content={ step.ask } replService={replService}/>;
+  return <SimpleMarkdown content={step.ask} replService={replService} />;
 }
 
 const StyledTextarea = styled(Textarea)`

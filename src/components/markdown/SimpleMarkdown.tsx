@@ -55,23 +55,23 @@ function getCoreProps(props: GetCoreProps): any {
 export const defaults: Defaults = {
   p: (props) => {
     const { children } = props;
-    return <Text mb={ 2 }>{ children }</Text>;
+    return <Text mb={2}>{children}</Text>;
   },
   em: (props) => {
     const { children } = props;
-    return <Text as="em">{ children }</Text>;
+    return <Text as='em'>{children}</Text>;
   },
   blockquote: (props) => {
     const { children } = props;
     return (
-      <Code as="blockquote" p={ 2 }>
-        { children }
+      <Code as='blockquote' p={2}>
+        {children}
       </Code>
     );
   },
   del: (props) => {
     const { children } = props;
-    return <Text as="del">{ children }</Text>;
+    return <Text as='del'>{children}</Text>;
   },
   hr: (props) => {
     return <Divider />;
@@ -80,7 +80,7 @@ export const defaults: Defaults = {
   img: Image,
   text: (props) => {
     const { children } = props;
-    return <Text as="span">{ children }</Text>;
+    return <Text as='span'>{children}</Text>;
   },
   ul: (props) => {
     const { ordered, children, depth } = props;
@@ -93,8 +93,8 @@ export const defaults: Defaults = {
     }
     if (depth === 1) styleType = "circle";
     return (
-      <Element spacing={ 2 } as={ ordered ? "ol" : "ul" } styleType={ styleType } pl={ 4 } { ...attrs }>
-        { children }
+      <Element spacing={2} as={ordered ? "ol" : "ul"} styleType={styleType} pl={4} {...attrs}>
+        {children}
       </Element>
     );
   },
@@ -109,8 +109,8 @@ export const defaults: Defaults = {
     }
     if (depth === 1) styleType = "circle";
     return (
-      <Element spacing={ 2 } as={ ordered ? "ol" : "ul" } styleType={ styleType } pl={ 4 } { ...attrs }>
-        { children }
+      <Element spacing={2} as={ordered ? "ol" : "ul"} styleType={styleType} pl={4} {...attrs}>
+        {children}
       </Element>
     );
   },
@@ -119,14 +119,14 @@ export const defaults: Defaults = {
     let checkbox = null;
     if (checked !== null && checked !== undefined) {
       checkbox = (
-        <Checkbox isChecked={ checked } isReadOnly>
-          { children }
+        <Checkbox isChecked={checked} isReadOnly>
+          {children}
         </Checkbox>
       );
     }
     return (
-      <ListItem { ...getCoreProps(props) } listStyleType={ checked !== null ? "none" : "inherit" }>
-        { checkbox || children }
+      <ListItem {...getCoreProps(props)} listStyleType={checked !== null ? "none" : "inherit"}>
+        {checkbox || children}
       </ListItem>
     );
   },
@@ -134,24 +134,24 @@ export const defaults: Defaults = {
     const { level, children } = props;
     const sizes = ["2xl", "xl", "lg", "md", "sm", "xs"];
     return (
-      <Heading my={ 4 } as={ `h${ level }` } size={ sizes[`${ level - 1 }`] } { ...getCoreProps(props) }>
-        { children }
+      <Heading my={4} as={`h${level}`} size={sizes[`${level - 1}`]} {...getCoreProps(props)}>
+        {children}
       </Heading>
     );
   },
   pre: (props) => {
     const { children } = props;
-    return <chakra.pre { ...getCoreProps(props) }>{ children }</chakra.pre>;
+    return <chakra.pre {...getCoreProps(props)}>{children}</chakra.pre>;
   },
   table: Table,
   thead: Thead,
   tbody: Tbody,
-  tr: (props) => <Tr>{ props.children }</Tr>,
-  td: (props) => <Td>{ props.children }</Td>,
-  th: (props) => <Th>{ props.children }</Th>
+  tr: (props) => <Tr>{props.children}</Tr>,
+  td: (props) => <Td>{props.children}</Td>,
+  th: (props) => <Th>{props.children}</Th>,
 };
 
-function ReplEmbed({ code, repl }: { code: string, repl: ReplService }) {
+function ReplEmbed({ code, repl }: { code: string; repl: ReplService }) {
   const [result, setResult] = useState<string | undefined>(undefined);
   const [isRunning, setIsRunning] = useState(false);
 
@@ -178,29 +178,28 @@ function ReplEmbed({ code, repl }: { code: string, repl: ReplService }) {
 
   return (
     <Box>
-      <Button onClick={ runAllCell }>Run</Button>
-      { isRunning && <Text>Running...</Text> }
-      { result && <Text>{ result }</Text> }
+      <Button onClick={runAllCell}>Run</Button>
+      {isRunning && <Text>Running...</Text>}
+      {result && <Text>{result}</Text>}
     </Box>
   );
-
 }
 
-function SimpleMarkdown({ content, replService }: { content: string, replService?: ReplService | undefined }) {
+function SimpleMarkdown({ content, replService }: { content: string; replService?: ReplService | undefined }) {
   console.log(replService);
 
   function getHighlighter(match: RegExpExecArray, props: any, children: any) {
     const language = match[1];
     if (language == "mermaid") {
-      return <MermaidWrapper graphDefinition={ children } />;
+      return <MermaidWrapper graphDefinition={children} />;
     }
 
     return (
       <>
-        <SyntaxHighlighter language={ language } wrapLongLines={ true } { ...props }>
-          { children }
+        <SyntaxHighlighter language={language} wrapLongLines={true} {...props}>
+          {children}
         </SyntaxHighlighter>
-        { replService && <ReplEmbed code={ children } repl={ replService } /> }
+        {replService && <ReplEmbed code={children} repl={replService} />}
       </>
     );
   }
@@ -208,9 +207,9 @@ function SimpleMarkdown({ content, replService }: { content: string, replService
   return (
     <>
       <ReactMarkdown
-        unwrapDisallowed={ true }
-        remarkPlugins={ [remarkGfm] }
-        components={ {
+        unwrapDisallowed={true}
+        remarkPlugins={[remarkGfm]}
+        components={{
           p: defaults.p,
           em: defaults.em,
           blockquote: defaults.blockquote,
@@ -242,14 +241,14 @@ function SimpleMarkdown({ content, replService }: { content: string, replService
             return !inline && match ? (
               getHighlighter(match, props, code)
             ) : (
-              <code className={ className + " " + "empty-language" } { ...props }>
-                { code }
+              <code className={className + " " + "empty-language"} {...props}>
+                {code}
               </code>
             );
-          }
-        } }
+          },
+        }}
       >
-        { content }
+        {content}
       </ReactMarkdown>
     </>
   );
