@@ -17,3 +17,39 @@ steps:
       ```kotlin
       x + 10086
       ```
+
+      这个代码是跑不了的
+  - name: Kotlin Sample
+    ask: |
+      ```kotlin
+      @file:DependsOn("org.springframework.boot:spring-boot-starter-web:2.7.9")
+      @file:DependsOn("mysql:mysql-connector-java:8.0.32")
+
+      package sample
+
+      import org.springframework.boot.*
+      import org.springframework.boot.autoconfigure.*
+      import org.springframework.web.bind.annotation.*
+      import org.springframework.context.annotation.ComponentScan;
+      import org.springframework.context.annotation.Configuration;
+
+      import java.util.*
+
+      @RestController
+      class HelloController {
+          @GetMapping("/hello")
+          fun helloKotlin(): String {
+              return "hello world"
+          }
+      }
+
+      @ComponentScan(basePackageClasses = [HelloController::class])
+      @SpringBootApplication
+      open class ReplApplication
+
+      fun main(args: Array<String>) {
+          SpringApplication(ReplApplication::class.java).run(*args)
+      }
+
+      main(arrayOf("--server.port=8083"))
+      ```
