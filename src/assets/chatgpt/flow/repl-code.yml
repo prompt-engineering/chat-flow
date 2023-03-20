@@ -1,0 +1,19 @@
+name: REPL Code
+category: Development
+author: Phodal Huang
+description: REPL Service for ClickFlow
+explain: |
+  digraph G {
+    0[flowType = "prompt"]
+  }
+
+stepGuide: false
+replService: true
+steps:
+  - name: First Demo
+    ask: |
+      检查一下你的代码是否可以运行：
+
+      ```kotlin
+      x + 10086
+      ```

@@ -8,4 +8,5 @@ export type StartlingFlow = {
   description: string;
   steps: FlowStep[];
   stepGuide?: boolean;
+  replService?: boolean;
 };
