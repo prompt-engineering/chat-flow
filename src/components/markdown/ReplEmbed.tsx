@@ -31,7 +31,7 @@ export function ReplEmbed({ code, repl }: { code: string; repl: ReplService }) {
     <Box>
       <Button onClick={runAllCell}>Run</Button>
       {isRunning && <Text>Running...</Text>}
-      {result && <Textarea>{result}</Textarea>}
+      {result && <Textarea defaultValue={result}></Textarea>}
     </Box>
   );
 }
