@@ -10,7 +10,7 @@ explain: |
 stepGuide: false
 replService: true
 steps:
-  - name: First Demo
+  - name: It does not work
     ask: |
       检查一下你的代码是否可以运行：
 
@@ -19,6 +19,12 @@ steps:
       ```
 
       这个代码是跑不了的
+  - name: It works
+    ask: |
+      ```kotlin
+      var x = 1
+      x + 10086
+      ```
   - name: Kotlin Sample
     ask: |
       ```kotlin
