@@ -1,32 +1,66 @@
-name: REPL Code
+name: REPL Code Kotlin
 category: Development
 author: Phodal Huang
 description: REPL Service for ClickFlow
 explain: |
   digraph G {
     0[flowType = "prompt"]
+    1[flowType = "prompt"]
+    2[flowType = "prompt"]
+    3[flowType = "prompt"]
+
+    0 -> 1
+    1 -> 2
+    1 -> 3
   }
 
 stepGuide: false
 replService: true
 steps:
-  - name: It does not work
+  - name: Setup REPL
     ask: |
-      检查一下你的代码是否可以运行：
+      首先，你需要 Setup 一下 FlowRepl: [https://github.com/prompt-engineering/flow-repl](https://github.com/prompt-engineering/flow-repl)
 
-      ```kotlin
-      x + 10086
-      ```
+      然后，启动对应的 REPL 服务，例如:
 
-      这个代码是跑不了的
-  - name: It works
-    ask: |
+      - Kotlin Repl
+      - TypeScript Repl
+
+      然后，Run 一下下面的代码：
+
       ```kotlin
       var x = 1
       x + 10086
       ```
-  - name: Kotlin Ktor
+
+      如果返回的是 `{"resultValue":"10087","className":"java.lang.Integer"}` 那就说明你的 REPL 服务已经可以正常工作了。
+  - name: Generate Code
+    markdownEditor: true
     ask: |
+      我要实现一个用户注册的功能，请帮我使用 Ktor 和 MySQL JDBC，实现这个 RESTful API：
+
+      1. 帮我设计一个 API，需要考虑 JSON 格式的输入和输出数据，放在代码的注释里，格式如后面的代码。
+      2. 我使用的是 Serverless 数据库，请使用 `{DATABASE_URL}` 作为数据库连接字符串。
+      3. 你只返回给我一个 Server 类，我会自动部署到 AWS Lambda 上
+      4. 最后，你只返回给我代码，代码格式如下：
+
+      ```kotlin
+      class Server : KotlessAWS() {
+          override fun prepare(app: Application) {
+              app.routing {
+                  get("/") {
+                      call.respondText { "Hello World!" }
+                  }
+              }
+          }
+      }
+      ```
+
+      明白吗？明白就开始吧？
+  - name: Kotlin Ktor Sample
+    ask: |
+      下面的代码是 AI 生成的，不过好像有点问题：
+
       ```kotlin
       @file:Repository("https://packages.jetbrains.team/maven/p/ktls/maven")
       @file:Repository("https://repo.maven.apache.org/maven2/")
