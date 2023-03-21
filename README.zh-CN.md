@@ -13,7 +13,6 @@ Online Demo: https://prompt.phodal.com/
 
 # 部署
 
-
 ## 在 Vercel 上部署 ChatFlow，使用 Planetscale
 
 按照以下步骤，在 Vercel 上部署 ChatFlow，使用由 Planetscale 提供的无服务器 MySQL 数据库：

@@ -141,6 +141,7 @@ function StartlingStepDetail({
 
 const StyledStepHeading = styled.h4`
   font-size: 1.5rem;
+  padding: 1rem 0;
 `;
 
 // ref: https://codepen.io/kiruu/pen/XWdYrEa

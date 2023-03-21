@@ -8,6 +8,7 @@ import FlowExplain from "../../../../flows/explain/FlowExplain";
 import { ReplService } from "@/flows/repl/ReplService";
 import { webSocket } from "rxjs/webSocket";
 import { WebSocketSubject } from "rxjs/internal/observable/dom/WebSocketSubject";
+import styled from "@emotion/styled";
 
 type StepPageProps = {
   flow: StartlingFlow;
@@ -73,7 +74,7 @@ function StartlingStepPage({ flow, id, i18n }: StepPageProps) {
     <>
       {flow && (
         <>
-          <Flex direction='column' gap='4'>
+          <Flex direction='column'>
             <Box>
               <Breadcrumb>
                 <BreadcrumbItem>
@@ -85,15 +86,15 @@ function StartlingStepPage({ flow, id, i18n }: StepPageProps) {
               </Breadcrumb>
             </Box>
 
+            <StyledHeading as='h4'>{flow.name}</StyledHeading>
+
             {flow.explain && (
               <Box style={{ position: "relative", height: "320px" }}>
                 <FlowExplain step={flow} />
               </Box>
             )}
 
-            <Heading as='h4'>{flow.name}</Heading>
-
-            <SimpleGrid columns={1} spacing={4}>
+            <SimpleGrid>
               {flow.steps.map(
                 (step, index) =>
                   (index <= currentStep || !flow.stepGuide) /** show all if stepGuide is falsey */ && (
@@ -120,5 +121,10 @@ function StartlingStepPage({ flow, id, i18n }: StepPageProps) {
     </>
   );
 }
+
+const StyledHeading = styled(Heading)`
+  padding: 1rem 0;
+  text-align: center;
+`;
 
 export default StartlingStepPage;
