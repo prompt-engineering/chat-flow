@@ -12,17 +12,19 @@ type StepExplainProps = {
   step: StartlingFlow;
 };
 
+type NodeInfo = {
+  id: string;
+  label: string | undefined;
+  width: number;
+  height: number;
+  position: { x: number; y: number };
+};
+
 function FlowExplain(props: StepExplainProps) {
   const graph = explainParser(props.step.explain || "");
   const flowGraph = graphToFlow(graph);
 
-  function getLabel(node: {
-    id: string;
-    label: string | undefined;
-    width: number;
-    height: number;
-    position: { x: number; y: number };
-  }) {
+  function getLabel(node: NodeInfo) {
     const id = parseInt(node.id) || 0;
     return props.step.steps[id]?.name || "";
   }
