@@ -37,6 +37,10 @@ function StartlingStepPage({ flow, id, i18n }: StepPageProps) {
 
   const bottomAnchor = React.useRef<HTMLDivElement>(null);
   useEffect(() => {
+    if (!flow.stepGuide) {
+      return;
+    }
+
     let counter = 0;
     const id = setInterval(() => {
       if (bottomAnchor.current) {
