@@ -33,6 +33,11 @@ Follow these steps to deploy ChatFlow on Vercel with a serverless MySQL database
 
 With these steps completed, your ChatFlow will be deployed on Vercel with a Planetscale serverless MySQL database.
 
+# Create new Flow
+
+- examples: see in: [src/assets/chatgpt/flow](src/assets/chatgpt/flow)
+- all type defines: [src/flows/types](src/flows/types)
+
 # Development
 
 Technical documentation:

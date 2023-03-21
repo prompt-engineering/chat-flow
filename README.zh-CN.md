@@ -38,6 +38,11 @@ Online Demo: https://prompt.phodal.com/
 3. 使用 `node scripts/gen-enc.js` 生成加密密钥，在 `.env` 文件中配置 `ENV_KEY=***` 的形式。（PS：`.env` 文件可以从 env.template 复制过去）
 4. 直接运行 `npm run dev` 就可以使用了。
 
+# Create new Flow
+
+- examples: see in: [src/assets/chatgpt/flow](src/assets/chatgpt/flow)
+- all type defines: [src/flows/types](src/flows/types)
+
 # Development
 
 Technical documentation:
