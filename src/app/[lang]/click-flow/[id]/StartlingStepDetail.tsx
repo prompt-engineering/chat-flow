@@ -93,6 +93,7 @@ function StartlingStepDetail({
         <Box w='100%' h='100%'>
           <AskRenderer step={step} onAskUpdate={setAsk} cachedValue={cachedValue} replService={replService} />
         </Box>
+        <CopyComponent value={step.ask} />
       </HumanBlock>
       {(!response || /** disable if stepGuide is false */ !flow.stepGuide) && (
         <Flex flexDirection={"row"} gap={4} padding={8}>
@@ -117,10 +118,12 @@ function StartlingStepDetail({
           <ChatGptIcon />
         </Box>
         {response && (
-          <Box gap='2' ml='2' flex='1'>
-            <SimpleMarkdown content={response} />
-            <CopyComponent value={response} />
-          </Box>
+          <>
+            <Box gap="2" ml="2" flex="1">
+              <SimpleMarkdown content={ response } />
+            </Box>
+            <CopyComponent value={ response } />
+          </>
         )}
       </AiBlock>
       {response && step.preActions?.length > 0 && (

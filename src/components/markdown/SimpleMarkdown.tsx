@@ -151,8 +151,6 @@ export const defaults: Defaults = {
 };
 
 function SimpleMarkdown({ content, replService }: { content: string; replService?: ReplService | undefined }) {
-  console.log(replService);
-
   function getHighlighter(match: RegExpExecArray, props: any, children: any) {
     const language = match[1];
     if (language == "mermaid") {
