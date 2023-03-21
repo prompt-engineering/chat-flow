@@ -95,7 +95,7 @@ function StartlingStepDetail({
         </Box>
         <CopyComponent value={step.ask} />
       </HumanBlock>
-      {(!response || /** disable if stepGuide is false */ !flow.stepGuide) && (
+      {(!response || /** disable if stepGuide is false */ !flow.stepGuide) && !step.hiddenExecute && (
         <Flex flexDirection={"row"} gap={4} padding={8}>
           {step.preActions?.length > 0 && (
             <>
@@ -113,19 +113,21 @@ function StartlingStepDetail({
           />
         </Flex>
       )}
-      <AiBlock direction='row' gap='2'>
-        <Box>
-          <ChatGptIcon />
-        </Box>
-        {response && (
-          <>
-            <Box gap="2" ml="2" flex="1">
-              <SimpleMarkdown content={ response } />
-            </Box>
-            <CopyComponent value={ response } />
-          </>
-        )}
-      </AiBlock>
+      {!step.hiddenExecute && (
+        <AiBlock direction='row' gap='2'>
+          <Box>
+            <ChatGptIcon />
+          </Box>
+          {response && (
+            <>
+              <Box gap='2' ml='2' flex='1'>
+                <SimpleMarkdown content={response} />
+              </Box>
+              <CopyComponent value={response} />
+            </>
+          )}
+        </AiBlock>
+      )}
       {response && step.preActions?.length > 0 && (
         <>
           {step.preActions.map((action, key) => (

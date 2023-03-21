@@ -18,6 +18,7 @@ stepGuide: false
 replService: true
 steps:
   - name: Setup REPL
+    hiddenExecute: true
     ask: |
       首先，你需要 Setup 一下 FlowRepl: [https://github.com/prompt-engineering/flow-repl](https://github.com/prompt-engineering/flow-repl)
 

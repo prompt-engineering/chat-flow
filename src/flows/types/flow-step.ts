@@ -3,6 +3,7 @@ import { FlowAction } from "@/flows/types/flow-action";
 export type FlowStep = {
   name: string;
   ask: string;
+  hiddenExecute?: boolean;
   response?: string;
   markdownEditor?: boolean;
   cachedResponseRegex: string;
