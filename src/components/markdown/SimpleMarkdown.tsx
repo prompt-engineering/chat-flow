@@ -161,7 +161,7 @@ function SimpleMarkdown({ content, replService }: { content: string; replService
 
     return (
       <>
-        <SyntaxHighlighter language={language} wrapLongLines={true} {...props}>
+        <SyntaxHighlighter showLineNumbers={true} language={language} wrapLongLines={true} {...props}>
           {children}
         </SyntaxHighlighter>
         {replService && <ReplEmbed code={children} repl={replService} />}
