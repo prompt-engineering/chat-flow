@@ -1,12 +1,10 @@
 "use client";
 
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useRef, useState } from "react";
 import ReactFlow, {
-  addEdge,
   Background,
   Controls,
   Edge,
-  EdgeChange,
   MiniMap,
   Node,
   ReactFlowInstance,
@@ -22,6 +20,7 @@ import "reactflow/dist/style.css";
 import { shallow } from "zustand/shallow";
 import useRfStore from "@/flows/store";
 import { uuidv4 } from "lib0/random";
+import { flowToYaml } from "@/app/[lang]/flow-editor/StepConverter";
 
 const transformSelector = (state: any) => state.transform;
 
@@ -197,8 +196,8 @@ function FlowEditor({ i18n }: GeneralI18nProps) {
   );
 
   const generateYaml = () => {
-    // const yaml = generateYamlFromNodes(nodes);
-    // console.log(yaml);
+    const yaml = flowToYaml(nodes, edges);
+    console.log(yaml);
   };
 
   return (
@@ -254,3 +253,4 @@ const StyledFlowProvider = styled(ReactFlowProvider)`
 `;
 
 export default FlowEditor;
+
