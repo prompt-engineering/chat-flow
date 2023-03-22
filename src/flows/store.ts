@@ -13,7 +13,7 @@ import {
   OnNodesChange,
 } from "reactflow";
 import { FlowStep } from "@/flows/types/flow-step";
-
+import { persist, createJSONStorage } from "zustand/middleware";
 
 export type NodeData = {
   step: FlowStep;
@@ -28,63 +28,59 @@ export type RFState = {
   updateNodeStep: (nodeId: string, step: FlowStep) => void;
 };
 
-function getInitialElements(key: string) {
-  const nodes: string | null = localStorage.getItem(key);
-  if (nodes) {
-    try {
-      return JSON.parse(nodes);
-    } catch (e) {
-      return [];
-    }
-  }
-
-  return [];
-}
-
-export const NODES_STORAGE_KEY = "flowNodes";
-export const EDGES_STORAGE_KEY = "flowEdges";
-
 // this is our useStore hook that we can use in our components to get parts of the store and call actions
-const useRfStore = create<RFState>((set, get) => ({
-  nodes: getInitialElements(NODES_STORAGE_KEY) as Node[],
-  edges: getInitialElements(EDGES_STORAGE_KEY) as Edge[],
-  addNode(node: Node<NodeData>) {
-    set({
-      nodes: [...get().nodes, node],
-    });
-  },
-  addEdge(edge: Edge) {
-    set({
-      edges: [...get().edges, edge],
-    });
-  },
-  onNodesChange: (changes: NodeChange[]) => {
-    set({
-      nodes: applyNodeChanges(changes, get().nodes),
-    });
-  },
-  onEdgesChange: (changes: EdgeChange[]) => {
-    set({
-      edges: applyEdgeChanges(changes, get().edges),
-    });
-  },
-  onConnect: (connection: Connection) => {
-    set({
-      edges: addEdge(connection, get().edges),
-    });
-  },
-  updateNodeStep: (nodeId: string, step: FlowStep) => {
-    set({
-      nodes: get().nodes.map((node) => {
-        if (node.id === nodeId) {
-          // it's important to create a new object here, to inform React Flow about the cahnges
-          node.data = { ...node.data, step };
-        }
+const useRfStore = create(
+  persist(
+    (set, get: any) => ({
+      nodes: [],
+      edges: [],
+      addNode(node: Node<NodeData>) {
+        set({
+          nodes: [...get().nodes, node],
+        });
+      },
+      addEdge(edge: Edge) {
+        set({
+          edges: [...get().edges, edge],
+        });
+      },
+      onNodesChange: (changes: NodeChange[]) => {
+        set({
+          nodes: applyNodeChanges(changes, get().nodes),
+        });
+      },
+      onEdgesChange: (changes: EdgeChange[]) => {
+        set({
+          edges: applyEdgeChanges(changes, get().edges),
+        });
+      },
+      onConnect: (connection: Connection) => {
+        set({
+          edges: addEdge(connection, get().edges),
+        });
+      },
+      updateNodeStep: (nodeId: string, step: FlowStep) => {
+        set({
+          nodes: get().nodes.map((node: any) => {
+            if (node.id === nodeId) {
+              // it's important to create a new object here, to inform React Flow about the cahnges
+              node.data = { ...node.data, step };
+            }
 
-        return node;
-      }),
-    });
-  },
-}));
+            return node;
+          }),
+        });
+      },
+    }),
+    {
+      name: "flow",
+      partialize: (state: any) =>
+        ({
+          nodes: state.nodes,
+          edges: state.edges,
+        }),
+    },
+  ),
+);
 
 export default useRfStore;

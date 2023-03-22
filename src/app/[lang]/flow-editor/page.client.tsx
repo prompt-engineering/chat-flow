@@ -19,9 +19,8 @@ import StepNode from "@/flows/react-flow-nodes/StepNode";
 import { OnConnectStartParams } from "@reactflow/core/dist/esm/types/general";
 
 import "reactflow/dist/style.css";
-import { useLocalStorage } from "react-use";
 import { shallow } from "zustand/shallow";
-import useRfStore, { EDGES_STORAGE_KEY, NODES_STORAGE_KEY } from "@/flows/store";
+import useRfStore from "@/flows/store";
 
 const transformSelector = (state: any) => state.transform;
 

@@ -28,8 +28,8 @@ function StepNode(props: TextNodeProps) {
       preActions: [],
       postActions: [],
     } as FlowStep,
-    // we config to onChange to trigger this method
     onSubmit: (values) => {
+      // we config to onChange to trigger this method
       updateNode(props.id, values);
     },
   });
