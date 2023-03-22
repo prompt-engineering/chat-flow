@@ -4,7 +4,6 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import ReactFlow, {
   addEdge,
   Background,
-  Connection,
   Controls,
   Edge,
   EdgeChange,
@@ -12,8 +11,6 @@ import ReactFlow, {
   Node,
   ReactFlowInstance,
   ReactFlowProvider,
-  useEdgesState,
-  useNodesState,
   useStore,
 } from "reactflow";
 import { Box, Button, Container, Flex, Text } from "@chakra-ui/react";
@@ -22,14 +19,17 @@ import StepNode from "@/flows/react-flow-nodes/StepNode";
 import { OnConnectStartParams } from "@reactflow/core/dist/esm/types/general";
 
 import "reactflow/dist/style.css";
-import { WebStorage } from "@/storage/webstorage";
 import { useLocalStorage } from "react-use";
+import { shallow } from "zustand/shallow";
+import useRfStore, { EDGES_STORAGE_KEY, NODES_STORAGE_KEY } from "@/flows/store";
 
 const transformSelector = (state: any) => state.transform;
 
 const NavbarHeight = 60;
 
-export function DebugBar({ nodes, setNodes }: { nodes: any[]; setNodes: any }) {
+export function DebugBar({ nodes }: { nodes: any[] }) {
+  console.log(nodes);
+
   const transform = useStore(transformSelector);
 
   return (
@@ -119,18 +119,31 @@ const nodeTypes = {
   stepNode: StepNode,
 };
 
+const selector = (state: any) => ({
+  nodes: state.nodes,
+  edges: state.edges,
+  setEdges: state.setEdges,
+  setNodes: state.setNodes,
+  onNodesChange: state.onNodesChange,
+  onEdgesChange: state.onEdgesChange,
+  onConnect: state.onConnect,
+});
+
 function FlowEditor({ i18n }: GeneralI18nProps) {
   const dict = i18n.dict;
 
   // fetch latest nodes and edges from local storage
-  const [storedNodes, setStoredNodes] = useLocalStorage<Node[]>("flowNodes", []);
-  const [storedEdges, setStoredEdges] = useLocalStorage<Edge[]>("flowEdges", []);
+  const [storedNodes, setStoredNodes] = useLocalStorage<Node[]>(NODES_STORAGE_KEY, []);
+  const [storedEdges, setStoredEdges] = useLocalStorage<Edge[]>(EDGES_STORAGE_KEY, []);
 
   const reactFlowWrapper = useRef<HTMLDivElement>(null);
   const [reactFlowInstance, setReactFlowInstance] = useState<ReactFlowInstance | null>(null);
 
-  const [nodes, setNodes, onNodesChange] = useNodesState<Node[]>(storedNodes as any);
-  const [edges, setEdges, onEdgesChange] = useEdgesState<Edge[]>(storedEdges as any);
+  // const [nodes, setNodes, onNodesChange] = useNodesState<Node[]>(storedNodes as any);
+  // const [edges, setEdges, onEdgesChange] = useEdgesState<Edge[]>(storedEdges as any);
+
+  const { nodes, edges, setEdges, setNodes, onNodesChange, onEdgesChange, onConnect } = useRfStore(selector, shallow);
+  console.log(nodes, edges);
 
   // save nodes and edges to local storage when they change
   useEffect(() => {
@@ -145,11 +158,11 @@ function FlowEditor({ i18n }: GeneralI18nProps) {
     if (reactFlowInstance) {
       reactFlowInstance.setViewport({ x: 1, y: 0, zoom: 0.5 });
     }
-  }, [reactFlowInstance, setEdges, setNodes]);
+  }, [reactFlowInstance, setEdges]);
 
-  const onConnect = useCallback((params: Connection) => {
-    setEdges((els) => addEdge(params, els));
-  }, []);
+  // const onConnect = useCallback((params: Connection) => {
+  //   setEdges((els) => addEdge(params, els));
+  // }, []);
 
   const onEdgesChangeMod = useCallback((s: EdgeChange[]) => {
     onEdgesChange(s);
@@ -183,7 +196,7 @@ function FlowEditor({ i18n }: GeneralI18nProps) {
         data: { label: `${type} node` },
       };
 
-      setNodes((nds) => nds.concat(newNode));
+      setNodes((nds: Node[]) => nds.concat(newNode));
     },
     [reactFlowInstance],
   );
@@ -209,8 +222,8 @@ function FlowEditor({ i18n }: GeneralI18nProps) {
           type: "stepNode",
         };
 
-        setNodes((nds) => nds.concat(newNode));
-        setEdges((eds) => eds.concat({ id, source: connectingNodeId.current, target: id } as unknown as Edge));
+        setNodes((nds: Node[]) => nds.concat(newNode));
+        setEdges((eds: Edge[]) => eds.concat({ id, source: connectingNodeId.current, target: id } as unknown as Edge));
       }
     },
     [reactFlowInstance],
@@ -243,7 +256,7 @@ function FlowEditor({ i18n }: GeneralI18nProps) {
         </ReactFlow>
 
         <Sidebar onGenerate={generateYaml} />
-        <DebugBar nodes={nodes} setNodes={setNodes} />
+        <DebugBar nodes={nodes} />
 
         <MiniMap
           nodeStrokeColor={(n: any) => {
