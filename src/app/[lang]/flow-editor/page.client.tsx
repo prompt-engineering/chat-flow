@@ -122,51 +122,21 @@ const nodeTypes = {
 const selector = (state: any) => ({
   nodes: state.nodes,
   edges: state.edges,
-  setEdges: state.setEdges,
-  setNodes: state.setNodes,
+  addNode: state.addNode,
+  addEdge: state.addEdge,
   onNodesChange: state.onNodesChange,
   onEdgesChange: state.onEdgesChange,
   onConnect: state.onConnect,
 });
 
 function FlowEditor({ i18n }: GeneralI18nProps) {
-  const dict = i18n.dict;
-
-  // fetch latest nodes and edges from local storage
-  const [storedNodes, setStoredNodes] = useLocalStorage<Node[]>(NODES_STORAGE_KEY, []);
-  const [storedEdges, setStoredEdges] = useLocalStorage<Edge[]>(EDGES_STORAGE_KEY, []);
-
   const reactFlowWrapper = useRef<HTMLDivElement>(null);
   const [reactFlowInstance, setReactFlowInstance] = useState<ReactFlowInstance | null>(null);
 
   // const [nodes, setNodes, onNodesChange] = useNodesState<Node[]>(storedNodes as any);
   // const [edges, setEdges, onEdgesChange] = useEdgesState<Edge[]>(storedEdges as any);
 
-  const { nodes, edges, setEdges, setNodes, onNodesChange, onEdgesChange, onConnect } = useRfStore(selector, shallow);
-  console.log(nodes, edges);
-
-  // save nodes and edges to local storage when they change
-  useEffect(() => {
-    setStoredNodes(nodes);
-  }, [nodes, setStoredNodes]);
-
-  useEffect(() => {
-    setStoredEdges(edges);
-  }, [edges, setStoredEdges]);
-
-  useEffect(() => {
-    if (reactFlowInstance) {
-      reactFlowInstance.setViewport({ x: 1, y: 0, zoom: 0.5 });
-    }
-  }, [reactFlowInstance, setEdges]);
-
-  // const onConnect = useCallback((params: Connection) => {
-  //   setEdges((els) => addEdge(params, els));
-  // }, []);
-
-  const onEdgesChangeMod = useCallback((s: EdgeChange[]) => {
-    onEdgesChange(s);
-  }, []);
+  const { nodes, edges, addEdge, addNode, onNodesChange, onEdgesChange, onConnect } = useRfStore(selector, shallow);
 
   const onDragOver = useCallback((event: React.DragEvent) => {
     event.preventDefault();
@@ -196,7 +166,7 @@ function FlowEditor({ i18n }: GeneralI18nProps) {
         data: { label: `${type} node` },
       };
 
-      setNodes((nds: Node[]) => nds.concat(newNode));
+      addNode(newNode);
     },
     [reactFlowInstance],
   );
@@ -222,8 +192,8 @@ function FlowEditor({ i18n }: GeneralI18nProps) {
           type: "stepNode",
         };
 
-        setNodes((nds: Node[]) => nds.concat(newNode));
-        setEdges((eds: Edge[]) => eds.concat({ id, source: connectingNodeId.current, target: id } as unknown as Edge));
+        addNode(newNode)
+        addEdge({ id, source: connectingNodeId.current, target: id } as unknown as Edge);
       }
     },
     [reactFlowInstance],
@@ -243,7 +213,7 @@ function FlowEditor({ i18n }: GeneralI18nProps) {
           nodeTypes={nodeTypes}
           edges={edges}
           onNodesChange={onNodesChange}
-          onEdgesChange={onEdgesChangeMod}
+          onEdgesChange={onEdgesChange}
           onInit={setReactFlowInstance}
           onConnect={onConnect}
           onConnectStart={onConnectStart}

@@ -29,7 +29,7 @@ export type RFState = {
 };
 
 function getInitialElements(key: string) {
-  const nodes: string = localStorage.getItem(key);
+  const nodes: string | null = localStorage.getItem(key);
   if (nodes) {
     try {
       return JSON.parse(nodes);
@@ -48,8 +48,16 @@ export const EDGES_STORAGE_KEY = "flowEdges";
 const useRfStore = create<RFState>((set, get) => ({
   nodes: getInitialElements(NODES_STORAGE_KEY) as Node[],
   edges: getInitialElements(EDGES_STORAGE_KEY) as Edge[],
-  setEdges: (edges: Edge[]) => set({ edges }),
-  setNodes: (nodes: Node[]) => set({ nodes }),
+  addNode(node: Node<NodeData>) {
+    set({
+      nodes: [...get().nodes, node],
+    });
+  },
+  addEdge(edge: Edge) {
+    set({
+      edges: [...get().edges, edge],
+    });
+  },
   onNodesChange: (changes: NodeChange[]) => {
     set({
       nodes: applyNodeChanges(changes, get().nodes),
