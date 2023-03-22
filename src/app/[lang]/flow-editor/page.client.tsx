@@ -22,6 +22,8 @@ import StepNode from "@/flows/react-flow-nodes/StepNode";
 import { OnConnectStartParams } from "@reactflow/core/dist/esm/types/general";
 
 import "reactflow/dist/style.css";
+import { WebStorage } from "@/storage/webstorage";
+import { useLocalStorage } from "react-use";
 
 const transformSelector = (state: any) => state.transform;
 
@@ -34,14 +36,14 @@ export function DebugBar({ nodes, setNodes }: { nodes: any[]; setNodes: any }) {
     <StyledDebugBar>
       <div>Zoom & pan transform</div>
       <div>
-        [{ transform[0].toFixed(2) }, { transform[1].toFixed(2) }, { transform[2].toFixed(2) }]
+        [{transform[0].toFixed(2)}, {transform[1].toFixed(2)}, {transform[2].toFixed(2)}]
       </div>
-      <div className="title">Nodes</div>
-      { nodes.map((node) => (
-        <div key={ node.id }>
-          Node { node.id } - x: { node.position.x.toFixed(2) }, y: { node.position.y.toFixed(2) }
+      <div className='title'>Nodes</div>
+      {nodes.map((node) => (
+        <div key={node.id}>
+          Node {node.id} - x: {node.position.x.toFixed(2)}, y: {node.position.y.toFixed(2)}
         </div>
-      )) }
+      ))}
     </StyledDebugBar>
   );
 }
@@ -62,18 +64,17 @@ export function Sidebar(props: { onGenerate: () => void }) {
 
   return (
     <StyledSidebar>
-      <Flex direction="column" justify="space-between" h="100%">
+      <Flex direction='column' justify='space-between' h='100%'>
         <Box>
           <Text>You can drag these nodes to the pane on the right.</Text>
-          <Box
-            className="dndnode"
-            onDragStart={ (event) => onDragStart(event, "stepNode") }
-            draggable>
+          <Box className='dndnode' onDragStart={(event) => onDragStart(event, "stepNode")} draggable>
             Step
           </Box>
         </Box>
         <StyledBottomBox>
-          <Button colorScheme='pink' onClick={ props.onGenerate }>Generate YAML</Button>
+          <Button colorScheme='pink' onClick={props.onGenerate}>
+            Generate YAML
+          </Button>
         </StyledBottomBox>
       </Flex>
     </StyledSidebar>
@@ -83,7 +84,7 @@ export function Sidebar(props: { onGenerate: () => void }) {
 const StyledBottomBox = styled(Box)`
   text-align: center;
   padding: 20px;
-`
+`;
 
 const StyledSidebar = styled.aside`
   position: absolute;
@@ -91,7 +92,7 @@ const StyledSidebar = styled.aside`
   left: 0;
   bottom: 0;
   width: 200px;
-  height: 100vh - ${ NavbarHeight }px;
+  height: 100vh - ${NavbarHeight}px;
   background: #fff;
   border-right: 2px solid #ddd;
   box-shadow: 2px 0 4px rgba(0, 0, 0, 0.1);
@@ -112,7 +113,7 @@ const StyledSidebar = styled.aside`
 `;
 
 let id = 0;
-const getId = () => `dndnode_${ id++ }`;
+const getId = () => `dndnode_${id++}`;
 
 const nodeTypes = {
   stepNode: StepNode,
@@ -121,12 +122,24 @@ const nodeTypes = {
 function FlowEditor({ i18n }: GeneralI18nProps) {
   const dict = i18n.dict;
 
+  // fetch latest nodes and edges from local storage
+  const [storedNodes, setStoredNodes] = useLocalStorage<Node[]>("flowNodes", []);
+  const [storedEdges, setStoredEdges] = useLocalStorage<Edge[]>("flowEdges", []);
+
   const reactFlowWrapper = useRef<HTMLDivElement>(null);
   const [reactFlowInstance, setReactFlowInstance] = useState<ReactFlowInstance | null>(null);
 
-  const [nodes, setNodes, onNodesChange] = useNodesState<Node[]>([]);
-  const [edges, setEdges, onEdgesChange] = useEdgesState<Edge[]>([]);
+  const [nodes, setNodes, onNodesChange] = useNodesState<Node[]>(storedNodes as any);
+  const [edges, setEdges, onEdgesChange] = useEdgesState<Edge[]>(storedEdges as any);
 
+  // save nodes and edges to local storage when they change
+  useEffect(() => {
+    setStoredNodes(nodes);
+  }, [nodes, setStoredNodes]);
+
+  useEffect(() => {
+    setStoredEdges(edges);
+  }, [edges, setStoredEdges]);
 
   useEffect(() => {
     if (reactFlowInstance) {
@@ -167,7 +180,7 @@ function FlowEditor({ i18n }: GeneralI18nProps) {
         id: getId(),
         type,
         position,
-        data: { label: `${ type } node` },
+        data: { label: `${type} node` },
       };
 
       setNodes((nds) => nds.concat(newNode));
@@ -175,13 +188,13 @@ function FlowEditor({ i18n }: GeneralI18nProps) {
     [reactFlowInstance],
   );
 
-
   const connectingNodeId = useRef<any>();
   const onConnectStart = useCallback((_: any, { nodeId }: OnConnectStartParams) => {
     connectingNodeId.current = nodeId;
   }, []);
 
-  const onConnectEnd = useCallback((event: any) => {
+  const onConnectEnd = useCallback(
+    (event: any) => {
       const targetIsPane = event.target.classList.contains("react-flow__pane");
 
       if (targetIsPane) {
@@ -192,7 +205,7 @@ function FlowEditor({ i18n }: GeneralI18nProps) {
           id,
           // we are removing the half of the node width (75) to center the new node
           position: reactFlowInstance!.project({ x: event.clientX - left - 75, y: event.clientY - top }),
-          data: { label: `Node ${ id }` },
+          data: { label: `Node ${id}` },
           type: "stepNode",
         };
 
@@ -209,41 +222,39 @@ function FlowEditor({ i18n }: GeneralI18nProps) {
   };
 
   return (
-    <StyledContainer ref={ reactFlowWrapper }>
+    <StyledContainer ref={reactFlowWrapper}>
       <StyledFlowProvider>
         <ReactFlow
           fitView
-          nodes={ nodes }
-          nodeTypes={ nodeTypes }
-          edges={ edges }
-          onNodesChange={ onNodesChange }
-          onEdgesChange={ onEdgesChangeMod }
-          onInit={ setReactFlowInstance }
-
-          onConnect={ onConnect }
-          onConnectStart={ onConnectStart }
-          onConnectEnd={ onConnectEnd }
-
-          onDragOver={ onDragOver }
-          onDrop={ onDrop }
+          nodes={nodes}
+          nodeTypes={nodeTypes}
+          edges={edges}
+          onNodesChange={onNodesChange}
+          onEdgesChange={onEdgesChangeMod}
+          onInit={setReactFlowInstance}
+          onConnect={onConnect}
+          onConnectStart={onConnectStart}
+          onConnectEnd={onConnectEnd}
+          onDragOver={onDragOver}
+          onDrop={onDrop}
         >
           <Background />
           <Controls />
         </ReactFlow>
 
-        <Sidebar onGenerate={ generateYaml } />
-        <DebugBar nodes={ nodes } setNodes={ setNodes } />
+        <Sidebar onGenerate={generateYaml} />
+        <DebugBar nodes={nodes} setNodes={setNodes} />
 
         <MiniMap
-          nodeStrokeColor={ (n: any) => {
+          nodeStrokeColor={(n: any) => {
             if (n.type === "input") return "#0041d0" as any;
             if (n.type === "selectorNode") return "#000" as any;
             if (n.type === "output") return "#ff0072" as any;
-          } }
-          nodeColor={ (n) => {
+          }}
+          nodeColor={(n) => {
             if (n.type === "selectorNode") return "#000";
             return "#fff";
-          } }
+          }}
         />
       </StyledFlowProvider>
     </StyledContainer>
@@ -252,8 +263,8 @@ function FlowEditor({ i18n }: GeneralI18nProps) {
 
 const StyledContainer = styled(Container)`
   width: calc(100vw - 200px);
-  height: calc(100vh - ${ NavbarHeight }px);
-  margin-top: ${ NavbarHeight }px;
+  height: calc(100vh - ${NavbarHeight}px);
+  margin-top: ${NavbarHeight}px;
   min-width: 100%;
 `;
 

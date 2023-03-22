@@ -30,7 +30,7 @@ function StepNode(props: TextNodeProps) {
   return (
     <TextNodeStyle>
       <Handle type='target' position={Position.Left} isConnectable={isConnectable} />
-      <CardTitle>{ formik.values.name.length > 0 ? formik.values.name : "Step"}</CardTitle>
+      <CardTitle>{formik.values.name.length > 0 ? formik.values.name : "Step"}</CardTitle>
 
       <StyledForm onSubmit={formik.handleSubmit}>
         <FormControl id='name'>
@@ -100,6 +100,6 @@ const CardTitle = styled.div`
 
 const StyledForm = styled.form`
   padding: 10px;
-`
+`;
 
 export default StepNode;

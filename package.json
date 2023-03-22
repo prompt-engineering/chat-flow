@@ -60,6 +60,7 @@
     "react-markdown": "^8.0.5",
     "react-spinners": "^0.13.8",
     "react-syntax-highlighter": "^15.5.0",
+    "react-use": "^17.4.0",
     "reactflow": "^11.6.0",
     "remark": "^14.0.2",
     "remark-gfm": "^3.0.1",
