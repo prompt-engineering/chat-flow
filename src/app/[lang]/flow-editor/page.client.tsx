@@ -14,12 +14,15 @@ import ReactFlow, {
   ReactFlowProvider,
   useEdgesState,
   useNodesState,
+  useReactFlow,
   useStore,
 } from "reactflow";
 import { Container, Text } from "@chakra-ui/react";
 import styled from "@emotion/styled";
-import "reactflow/dist/style.css";
 import StepNode from "@/flows/react-flow-nodes/StepNode";
+import { OnConnectStartParams } from "@reactflow/core/dist/esm/types/general";
+
+import "reactflow/dist/style.css";
 
 const transformSelector = (state: any) => state.transform;
 
@@ -32,14 +35,14 @@ export function DebugBar({ nodes, setNodes }: { nodes: any[]; setNodes: any }) {
     <StyledDebugBar>
       <div>Zoom & pan transform</div>
       <div>
-        [{transform[0].toFixed(2)}, {transform[1].toFixed(2)}, {transform[2].toFixed(2)}]
+        [{ transform[0].toFixed(2) }, { transform[1].toFixed(2) }, { transform[2].toFixed(2) }]
       </div>
-      <div className='title'>Nodes</div>
-      {nodes.map((node) => (
-        <div key={node.id}>
-          Node {node.id} - x: {node.position.x.toFixed(2)}, y: {node.position.y.toFixed(2)}
+      <div className="title">Nodes</div>
+      { nodes.map((node) => (
+        <div key={ node.id }>
+          Node { node.id } - x: { node.position.x.toFixed(2) }, y: { node.position.y.toFixed(2) }
         </div>
-      ))}
+      )) }
     </StyledDebugBar>
   );
 }
@@ -61,7 +64,7 @@ export function Sidebar() {
   return (
     <StyledSidebar>
       <Text>You can drag these nodes to the pane on the right.</Text>
-      <div className='dndnode' onDragStart={(event) => onDragStart(event, "stepNode")} draggable>
+      <div className="dndnode" onDragStart={ (event) => onDragStart(event, "stepNode") } draggable>
         Step
       </div>
     </StyledSidebar>
@@ -74,7 +77,7 @@ const StyledSidebar = styled.aside`
   left: 0;
   bottom: 0;
   width: 200px;
-  height: 100vh - ${NavbarHeight}px;
+  height: 100vh - ${ NavbarHeight }px;
   background: #fff;
   border-right: 2px solid #ddd;
   box-shadow: 2px 0px 4px rgba(0, 0, 0, 0.1);
@@ -95,7 +98,7 @@ const StyledSidebar = styled.aside`
 `;
 
 let id = 0;
-const getId = () => `dndnode_${id++}`;
+const getId = () => `dndnode_${ id++ }`;
 
 function FlowEditor({ i18n }: GeneralI18nProps) {
   const dict = i18n.dict;
@@ -139,7 +142,7 @@ function FlowEditor({ i18n }: GeneralI18nProps) {
         id: getId(),
         type,
         position,
-        data: { label: `${type} node` },
+        data: { label: `${ type } node` },
       };
 
       setNodes((nds) => nds.concat(newNode));
@@ -147,42 +150,72 @@ function FlowEditor({ i18n }: GeneralI18nProps) {
     [reactFlowInstance],
   );
 
+
+  const connectingNodeId = useRef<any>();
+  const onConnectStart = useCallback((_: any, { nodeId }: OnConnectStartParams) => {
+    connectingNodeId.current = nodeId;
+  }, []);
+
+  const onConnectEnd = useCallback((event: any) => {
+      const targetIsPane = event.target.classList.contains("react-flow__pane");
+
+      if (targetIsPane) {
+        // we need to remove the wrapper bounds, in order to get the correct position
+        const { top, left } = reactFlowWrapper.current!.getBoundingClientRect();
+        const id = getId();
+        const newNode: Node = {
+          id,
+          // we are removing the half of the node width (75) to center the new node
+          position: reactFlowInstance!.project({ x: event.clientX - left - 75, y: event.clientY - top }),
+          data: { label: `Node ${ id }` },
+          type: "stepNode",
+        };
+
+        setNodes((nds) => nds.concat(newNode));
+        setEdges((eds) => eds.concat({ id, source: connectingNodeId.current, target: id } as unknown as Edge));
+      }
+    },
+    [reactFlowInstance],
+  );
+
+
   return (
-    <StyledContainer ref={reactFlowWrapper}>
+    <StyledContainer ref={ reactFlowWrapper }>
       <StyledFlowProvider>
         <ReactFlow
-          nodes={nodes}
-          onMove={() => {
-            console.log("////");
-          }}
-          nodeTypes={{
+          nodes={ nodes }
+          nodeTypes={ {
             stepNode: StepNode,
-          }}
-          edges={edges}
-          onNodesChange={onNodesChange}
-          onEdgesChange={onEdgesChangeMod}
-          onInit={setReactFlowInstance}
-          onConnect={onConnect}
-          onDragOver={onDragOver}
-          onDrop={onDrop}
+          } }
+          edges={ edges }
+          onNodesChange={ onNodesChange }
+          onEdgesChange={ onEdgesChangeMod }
+          onInit={ setReactFlowInstance }
+
+          onConnect={ onConnect }
+          onConnectStart={ onConnectStart }
+          onConnectEnd={ onConnectEnd }
+
+          onDragOver={ onDragOver }
+          onDrop={ onDrop }
         >
           <Background />
           <Controls />
         </ReactFlow>
 
         <Sidebar />
-        <DebugBar nodes={nodes} setNodes={setNodes} />
+        <DebugBar nodes={ nodes } setNodes={ setNodes } />
 
         <MiniMap
-          nodeStrokeColor={(n: any) => {
+          nodeStrokeColor={ (n: any) => {
             if (n.type === "input") return "#0041d0" as any;
             if (n.type === "selectorNode") return "#000" as any;
             if (n.type === "output") return "#ff0072" as any;
-          }}
-          nodeColor={(n) => {
+          } }
+          nodeColor={ (n) => {
             if (n.type === "selectorNode") return "#000";
             return "#fff";
-          }}
+          } }
         />
       </StyledFlowProvider>
     </StyledContainer>
@@ -191,8 +224,8 @@ function FlowEditor({ i18n }: GeneralI18nProps) {
 
 const StyledContainer = styled(Container)`
   width: 100vw;
-  height: calc(100vh - ${NavbarHeight}px);
-  margin-top: ${NavbarHeight}px;
+  height: calc(100vh - ${ NavbarHeight }px);
+  margin-top: ${ NavbarHeight }px;
   margin-left: 200px;
   min-width: 100%;
 `;
