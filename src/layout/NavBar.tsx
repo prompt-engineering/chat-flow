@@ -13,7 +13,6 @@ import {
 } from "@/components/ChakraUI";
 import { ChevronDownIcon, ExternalLinkIcon, HamburgerIcon } from "@/components/ChakraUI/icons";
 import Link from "next/link";
-import { ClickPromptIcon } from "@/components/CustomIcon";
 import { GITHUB_URL } from "@/configs/constants";
 import LocaleSwitcher from "@/components/LocaleSwitcher";
 import { getAppData } from "@/i18n";
@@ -29,6 +28,10 @@ export default async function NavBar({ locale }: { locale: string }) {
     {
       title: "ChatApp",
       url: `/chatgpt/`,
+    },
+    {
+      title: "Flow Editor",
+      url: `/flow-editor/`,
     },
   ];
 
