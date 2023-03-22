@@ -11,7 +11,10 @@ Online Demo: https://prompt.phodal.com/
 
 [English](./README.md) | 简体中文
 
-# 在 Vercel 上部署 ChatFlow，使用 Planetscale
+# 部署
+
+
+## 在 Vercel 上部署 ChatFlow，使用 Planetscale
 
 按照以下步骤，在 Vercel 上部署 ChatFlow，使用由 Planetscale 提供的无服务器 MySQL 数据库：
 
@@ -27,6 +30,13 @@ Online Demo: https://prompt.phodal.com/
     - 使用 `node scripts/gen-enc.js` 生成加密密钥，并将其设置为 `ENC_KEY`。
 
 完成这些步骤后，您的 ChatFlow 将在 Vercel 上部署，并使用 Planetscale 的无服务器 MySQL 数据库。
+
+## 本地使用
+
+1. 从 GitHub 克隆 [ChatFlow 模板](https://github.com/prompt-engineering/chat-flow)。
+2. 执行 `npm install`。
+3. 使用 `node scripts/gen-enc.js` 生成加密密钥，在 `.env` 文件中配置 `ENV_KEY=***` 的形式。（PS：`.env` 文件可以从 env.template 复制过去）
+4. 直接运行 `npm run dev` 就可以使用了。
 
 # Development
 
