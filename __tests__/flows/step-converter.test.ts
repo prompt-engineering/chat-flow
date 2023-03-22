@@ -83,7 +83,12 @@ describe("Step To Yaml", () => {
     const yaml = flowToYaml(nodes, edges);
     expect(yaml).toBe(`explain: |
   digraph G {
-    0[flowType = "interactive"]
+    "db7a9443-04c1-4880-8331-d6a4dd9267ad"[label="Demos", flowType = "interactive"]
+    "f9f5cb5f-863f-4d33-879c-c87050730be0"[label="4324234", flowType = "interactive"]
+    "ac6b0896-4bc5-4516-91a3-21a1363b658c"[label="4324234", flowType = "interactive"]
+    "db7a9443-04c1-4880-8331-d6a4dd9267ad" -> "f9f5cb5f-863f-4d33-879c-c87050730be0"
+    "f9f5cb5f-863f-4d33-879c-c87050730be0" -> "ac6b0896-4bc5-4516-91a3-21a1363b658c"
+  }
 steps:
   - name: Demos
     ask: ''

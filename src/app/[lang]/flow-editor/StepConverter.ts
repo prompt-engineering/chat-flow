@@ -11,7 +11,11 @@ import yml from "js-yaml";
  * 1. edges will convert to Graphviz dot format, bind to `explain` variable, flowType is `interactive`, like:
  * ```dot
  * digraph G {
- *   0[flowType = "interactive"]
+ *   "db7a9443-04c1-4880-8331-d6a4dd9267ad"[flowType = "interactive"]
+ *   ...
+ *   "db7a9443-04c1-4880-8331-d6a4dd9267ad" -> "f9f5cb5f-863f-4d33-879c-c87050730be0"
+ *   ...
+ * }
  * ```
  * 2. nodes will convert to `FlowStep` type, to be yaml format, like:
  *
@@ -34,13 +38,23 @@ import yml from "js-yaml";
  * steps: []
  * ```
  */
-export function flowToYaml(nodes: Node[], edges: Edge[]): string {
-  const explain = `digraph G {
-  0[flowType = "interactive"]
-`;
-  const steps = nodes.map((node) => {
-    return node.data.step;
+export function flowToYaml(nodes: Node[], edges: Edge[]) {
+  let explain = 'digraph G {\n';
+  const steps: FlowStep[] = [];
+
+  nodes.forEach((node) => {
+    const step: FlowStep = node.data.step;
+    explain += `  "${node.id}"[label="${step.name}", flowType = "interactive"]\n`;
+    steps.push(step);
   });
-  const yaml = yml.dump({ explain, steps });
-  return yaml;
+
+  edges.forEach((edge) => {
+    explain += `  "${edge.source}" -> "${edge.target}"\n`;
+  });
+
+  explain += '}\n';
+
+  const yamlOutput = yml.dump({ explain, steps: steps });
+
+  return yamlOutput;
 }
