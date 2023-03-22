@@ -29,21 +29,19 @@ function FlowEditor({ i18n }: GeneralI18nProps) {
   }, []);
 
   return (
-    <div className="w-full h-full" ref={ reactFlowWrapper }>
+    <div className='w-full h-full' ref={reactFlowWrapper}>
       <ReactFlow
-        nodes={ nodes }
-        onMove={ () => {
+        nodes={nodes}
+        onMove={() => {
           console.log("////");
-        }
-        }
-        edges={ edges }
-        onNodesChange={ onNodesChange }
-        onEdgesChange={ onEdgesChangeMod }
-        onConnect={ onConnect }
-        onDragOver={ onDragOver }
-        onDrop={ onDrop }
-      >
-      </ReactFlow>
+        }}
+        edges={edges}
+        onNodesChange={onNodesChange}
+        onEdgesChange={onEdgesChangeMod}
+        onConnect={onConnect}
+        onDragOver={onDragOver}
+        onDrop={onDrop}
+      ></ReactFlow>
     </div>
   );
 }
