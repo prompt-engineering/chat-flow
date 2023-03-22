@@ -54,13 +54,13 @@ function StepNode(props: TextNodeProps) {
           <Textarea name='ask' onChange={formik.handleChange} value={formik.values.ask} />
         </FormControl>
 
-        <FormControl id='hiddenExecute'>
-          <FormLabel>Hidden Execute</FormLabel>
-          <Switch name='hiddenExecute' onChange={formik.handleChange} isChecked={formik.values.hiddenExecute} />
+        <FormControl id="hiddenExecute" display="flex" alignItems="center">
+          <FormLabel flex="1">Hidden Execute</FormLabel>
+          <Switch name="hiddenExecute" onChange={ formik.handleChange } isChecked={ formik.values.hiddenExecute } />
         </FormControl>
 
-        <FormControl id='markdownEditor'>
-          <FormLabel>Markdown Editor</FormLabel>
+        <FormControl id='markdownEditor' display="flex" alignItems="center">
+          <FormLabel flex="1">Markdown Editor</FormLabel>
           <Switch name='markdownEditor' onChange={formik.handleChange} isChecked={formik.values.markdownEditor} />
         </FormControl>
 
