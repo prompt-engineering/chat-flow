@@ -20,6 +20,8 @@ type NodeInfo = {
   position: { x: number; y: number };
 };
 
+const nodeTypes = { interactive: InteractiveNode, prompt: PromptNode };
+
 function FlowExplain(props: StepExplainProps) {
   const graph = explainParser(props.step.explain || "");
   const flowGraph = graphToFlow(graph);
@@ -41,8 +43,6 @@ function FlowExplain(props: StepExplainProps) {
   const initialEdges: Edge[] = flowGraph.edges.map((edge) => {
     return { id: edge.id, source: edge.source, target: edge.target, type: "step" };
   });
-
-  const nodeTypes = { interactive: InteractiveNode, prompt: PromptNode };
 
   return (
     <div style={{ height: "100%" }}>

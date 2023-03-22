@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import ReactFlow, {
   addEdge,
   Background,
@@ -14,10 +14,9 @@ import ReactFlow, {
   ReactFlowProvider,
   useEdgesState,
   useNodesState,
-  useReactFlow,
   useStore,
 } from "reactflow";
-import { Container, Text } from "@chakra-ui/react";
+import { Box, Button, Container, Flex, Text } from "@chakra-ui/react";
 import styled from "@emotion/styled";
 import StepNode from "@/flows/react-flow-nodes/StepNode";
 import { OnConnectStartParams } from "@reactflow/core/dist/esm/types/general";
@@ -55,7 +54,7 @@ const StyledDebugBar = styled.div`
   font-size: 12px;
 `;
 
-export function Sidebar() {
+export function Sidebar(props: { onGenerate: () => void }) {
   const onDragStart = (event: any, nodeType: string) => {
     event.dataTransfer.setData("application/reactflow", nodeType);
     event.dataTransfer.effectAllowed = "move";
@@ -63,13 +62,28 @@ export function Sidebar() {
 
   return (
     <StyledSidebar>
-      <Text>You can drag these nodes to the pane on the right.</Text>
-      <div className="dndnode" onDragStart={ (event) => onDragStart(event, "stepNode") } draggable>
-        Step
-      </div>
+      <Flex direction="column" justify="space-between" h="100%">
+        <Box>
+          <Text>You can drag these nodes to the pane on the right.</Text>
+          <Box
+            className="dndnode"
+            onDragStart={ (event) => onDragStart(event, "stepNode") }
+            draggable>
+            Step
+          </Box>
+        </Box>
+        <StyledBottomBox>
+          <Button colorScheme='pink' onClick={ props.onGenerate }>Generate YAML</Button>
+        </StyledBottomBox>
+      </Flex>
     </StyledSidebar>
   );
 }
+
+const StyledBottomBox = styled(Box)`
+  text-align: center;
+  padding: 20px;
+`
 
 const StyledSidebar = styled.aside`
   position: absolute;
@@ -80,7 +94,7 @@ const StyledSidebar = styled.aside`
   height: 100vh - ${ NavbarHeight }px;
   background: #fff;
   border-right: 2px solid #ddd;
-  box-shadow: 2px 0px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 2px 0 4px rgba(0, 0, 0, 0.1);
 
   .dndnode {
     height: 40px;
@@ -100,6 +114,10 @@ const StyledSidebar = styled.aside`
 let id = 0;
 const getId = () => `dndnode_${ id++ }`;
 
+const nodeTypes = {
+  stepNode: StepNode,
+};
+
 function FlowEditor({ i18n }: GeneralI18nProps) {
   const dict = i18n.dict;
 
@@ -108,6 +126,13 @@ function FlowEditor({ i18n }: GeneralI18nProps) {
 
   const [nodes, setNodes, onNodesChange] = useNodesState<Node[]>([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState<Edge[]>([]);
+
+
+  useEffect(() => {
+    if (reactFlowInstance) {
+      reactFlowInstance.setViewport({ x: 1, y: 0, zoom: 0.5 });
+    }
+  }, [reactFlowInstance, setEdges, setNodes]);
 
   const onConnect = useCallback((params: Connection) => {
     setEdges((els) => addEdge(params, els));
@@ -178,15 +203,18 @@ function FlowEditor({ i18n }: GeneralI18nProps) {
     [reactFlowInstance],
   );
 
+  const generateYaml = () => {
+    // const yaml = generateYamlFromNodes(nodes);
+    // console.log(yaml);
+  };
 
   return (
     <StyledContainer ref={ reactFlowWrapper }>
       <StyledFlowProvider>
         <ReactFlow
+          fitView
           nodes={ nodes }
-          nodeTypes={ {
-            stepNode: StepNode,
-          } }
+          nodeTypes={ nodeTypes }
           edges={ edges }
           onNodesChange={ onNodesChange }
           onEdgesChange={ onEdgesChangeMod }
@@ -203,7 +231,7 @@ function FlowEditor({ i18n }: GeneralI18nProps) {
           <Controls />
         </ReactFlow>
 
-        <Sidebar />
+        <Sidebar onGenerate={ generateYaml } />
         <DebugBar nodes={ nodes } setNodes={ setNodes } />
 
         <MiniMap
@@ -223,10 +251,9 @@ function FlowEditor({ i18n }: GeneralI18nProps) {
 }
 
 const StyledContainer = styled(Container)`
-  width: 100vw;
+  width: calc(100vw - 200px);
   height: calc(100vh - ${ NavbarHeight }px);
   margin-top: ${ NavbarHeight }px;
-  margin-left: 200px;
   min-width: 100%;
 `;
 

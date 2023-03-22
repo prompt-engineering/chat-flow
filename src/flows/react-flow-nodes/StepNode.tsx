@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import React from "react";
 import { Handle, Position } from "reactflow";
-import { FormControl, FormLabel, Switch, Input, Button } from "@chakra-ui/react";
+import { FormControl, FormLabel, Switch, Input, Button, Textarea } from "@chakra-ui/react";
 import { useFormik } from "formik";
 
 type TextNodeProps = {
@@ -30,17 +30,17 @@ function StepNode(props: TextNodeProps) {
   return (
     <TextNodeStyle>
       <Handle type='target' position={Position.Left} isConnectable={isConnectable} />
-      <CardTitle>Step</CardTitle>
+      <CardTitle>{ formik.values.name.length > 0 ? formik.values.name : "Step"}</CardTitle>
 
-      <form onSubmit={formik.handleSubmit}>
+      <StyledForm onSubmit={formik.handleSubmit}>
         <FormControl id='name'>
-          <FormLabel>Name</FormLabel>
+          <FormLabel>Step Name</FormLabel>
           <Input type='text' name='name' onChange={formik.handleChange} value={formik.values.name} />
         </FormControl>
 
         <FormControl id='ask'>
           <FormLabel>Ask</FormLabel>
-          <Input type='text' name='ask' onChange={formik.handleChange} value={formik.values.ask} />
+          <Textarea name='ask' onChange={formik.handleChange} value={formik.values.ask} />
         </FormControl>
 
         <FormControl id='hiddenExecute'>
@@ -62,16 +62,14 @@ function StepNode(props: TextNodeProps) {
             value={formik.values.cachedResponseRegex}
           />
         </FormControl>
-
-        <Button type='submit'>Submit</Button>
-      </form>
+      </StyledForm>
 
       <Handle type='source' position={Position.Right} isConnectable={isConnectable} />
     </TextNodeStyle>
   );
 }
 
-const width = 240;
+const width = 320;
 
 const TextNodeStyle = styled.div`
   min-height: 50px;
@@ -84,7 +82,8 @@ const TextNodeStyle = styled.div`
 
 const CardTitle = styled.div`
   display: block;
-  height: 30px;
+  height: 32px;
+  line-height: 32px;
   width: ${width - 2}px;
   background: #eee;
 
@@ -94,9 +93,13 @@ const CardTitle = styled.div`
   border-bottom-width: 1px;
   border-bottom-style: solid;
   border-color: #555555;
-  font-size: 18px;
+  font-size: 14px;
   text-align: center;
   font-weight: bold;
 `;
+
+const StyledForm = styled.form`
+  padding: 10px;
+`
 
 export default StepNode;
