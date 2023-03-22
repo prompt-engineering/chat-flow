@@ -17,6 +17,7 @@ import {
   Stack,
   Text,
   Link as NavLink,
+  Container,
 } from "@chakra-ui/react";
 import { ExternalLinkIcon } from "@chakra-ui/icons";
 import samples from "@/assets/chatgpt/flow/index.json";
@@ -29,7 +30,7 @@ function StartlingByEachStepList({ i18n }: GeneralI18nProps) {
   const dict = i18n.dict;
 
   return (
-    <>
+    <Container marginTop='60px' minW='8xl' p={{ md: "2rem", base: "1rem" }}>
       <Alert status='info'>
         <AlertIcon />
         <AlertTitle>{dict["create-new-steps"]}: </AlertTitle>
@@ -65,7 +66,7 @@ function StartlingByEachStepList({ i18n }: GeneralI18nProps) {
           ))}
         </SimpleGrid>
       )}
-    </>
+    </Container>
   );
 }
 

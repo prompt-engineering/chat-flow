@@ -1,7 +1,16 @@
 "use client";
 
 import React, { useCallback, useRef } from "react";
-import ReactFlow, { addEdge, Connection, EdgeChange, useEdgesState, useNodesState, useReactFlow } from "reactflow";
+import ReactFlow, {
+  addEdge,
+  Background,
+  Controls,
+  Connection,
+  EdgeChange,
+  useEdgesState,
+  useNodesState,
+} from "reactflow";
+import { Container } from "@chakra-ui/react";
 
 function FlowEditor({ i18n }: GeneralI18nProps) {
   const dict = i18n.dict;
@@ -9,7 +18,7 @@ function FlowEditor({ i18n }: GeneralI18nProps) {
   const reactFlowWrapper = useRef(null);
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
-  const { setViewport } = useReactFlow();
+  // const { setViewport } = useReactFlow();
 
   const onConnect = useCallback((params: Connection) => {
     setEdges((eds) => addEdge({ ...params, className: "animate-pulse" }, eds));
@@ -29,7 +38,7 @@ function FlowEditor({ i18n }: GeneralI18nProps) {
   }, []);
 
   return (
-    <div className='w-full h-full' ref={reactFlowWrapper}>
+    <Container width={"100vw"} height={"100vh"} ref={reactFlowWrapper}>
       <ReactFlow
         nodes={nodes}
         onMove={() => {
@@ -41,8 +50,11 @@ function FlowEditor({ i18n }: GeneralI18nProps) {
         onConnect={onConnect}
         onDragOver={onDragOver}
         onDrop={onDrop}
-      ></ReactFlow>
-    </div>
+      >
+        <Background />
+        <Controls />
+      </ReactFlow>
+    </Container>
   );
 }
 

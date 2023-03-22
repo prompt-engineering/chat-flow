@@ -5,6 +5,7 @@ import { cookies } from "next/headers";
 import { SITE_USER_COOKIE } from "@/configs/constants";
 import { ChatGPTApp } from "@/components/chatgpt/ChatGPTApp";
 import * as UserAPI from "@/api/user";
+import { Container } from "@/components/ChakraUI";
 
 export default async function ChatGPTPage() {
   const hashedKey = cookies().get(SITE_USER_COOKIE)?.value as string;
@@ -18,8 +19,10 @@ export default async function ChatGPTPage() {
   }
 
   return (
-    <div className='bg-[#343541] flex h-[85vh] overflow-y-auto rounded-md items-center justify-center'>
-      <ChatGPTApp loggedIn={isLogin} />
-    </div>
+    <Container marginTop='60px' minW='8xl' p={{ md: "2rem", base: "1rem" }}>
+      <div className='bg-[#343541] flex h-[85vh] overflow-y-auto rounded-md items-center justify-center'>
+        <ChatGPTApp loggedIn={isLogin} />
+      </div>
+    </Container>
   );
 }

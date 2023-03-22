@@ -1,8 +1,6 @@
 import "@/app/globals.css";
 import React from "react";
-import Image from "next/image";
 import NavBar from "@/layout/NavBar";
-import { Container } from "@/components/ChakraUI";
 import { Provider } from "@/components/ChakraUI/Provider";
 
 type RootLayoutProps = {
@@ -34,9 +32,7 @@ export default function RootLayout({ params, children }: RootLayoutProps) {
             {/* @ts-expect-error Async Server Component */}
             <NavBar locale={lang} />
           </div>
-          <Container marginTop='60px' maxW='8xl' p={{ md: "2rem", base: "1rem" }}>
-            {children}
-          </Container>
+          {children}
         </Provider>
       </body>
     </html>

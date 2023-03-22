@@ -1,7 +1,16 @@
 "use client";
 
 import React, { useEffect } from "react";
-import { Box, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Flex, Heading, SimpleGrid } from "@/components/ChakraUI";
+import {
+  Box,
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  Flex,
+  Heading,
+  SimpleGrid,
+  Container,
+} from "@/components/ChakraUI";
 import StartlingStepDetail from "@/app/[lang]/click-flow/[id]/StartlingStepDetail";
 import { StartlingFlow } from "@/flows/types/click-flow";
 import FlowExplain from "../../../../flows/explain/FlowExplain";
@@ -71,7 +80,7 @@ function StartlingStepPage({ flow, id, i18n }: StepPageProps) {
   };
 
   return (
-    <>
+    <Container marginTop='60px' minW='8xl' p={{ md: "2rem", base: "1rem" }}>
       {flow && (
         <>
           <Flex direction='column'>
@@ -118,7 +127,7 @@ function StartlingStepPage({ flow, id, i18n }: StepPageProps) {
           </Flex>
         </>
       )}
-    </>
+    </Container>
   );
 }
 
