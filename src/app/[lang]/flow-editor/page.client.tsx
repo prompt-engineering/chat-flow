@@ -4,15 +4,17 @@ import React, { useCallback, useRef, useState } from "react";
 import ReactFlow, {
   addEdge,
   Background,
-  Controls,
   Connection,
+  Controls,
+  Edge,
   EdgeChange,
+  MiniMap,
+  Node,
+  ReactFlowInstance,
+  ReactFlowProvider,
   useEdgesState,
   useNodesState,
-  ReactFlowProvider,
   useStore,
-  MiniMap,
-  ReactFlowInstance,
 } from "reactflow";
 import { Container, Text } from "@chakra-ui/react";
 import styled from "@emotion/styled";
@@ -49,28 +51,6 @@ const StyledDebugBar = styled.div`
 
   font-size: 12px;
 `;
-
-const initialNodes = [
-  {
-    id: "provider-1",
-    type: "input",
-    data: { label: "Node 1" },
-    position: { x: 250, y: 5 },
-  },
-  { id: "provider-2", data: { label: "Node 2" }, position: { x: 100, y: 100 } },
-  { id: "provider-3", data: { label: "Node 3" }, position: { x: 400, y: 100 } },
-  { id: "provider-4", data: { label: "Node 4" }, position: { x: 400, y: 200 }, type: "stepNode" },
-];
-
-const initialEdges = [
-  {
-    id: "provider-e1-2",
-    source: "provider-1",
-    target: "provider-2",
-    animated: true,
-  },
-  { id: "provider-e1-3", source: "provider-1", target: "provider-3" },
-];
 
 export function Sidebar() {
   const onDragStart = (event: any, nodeType: string) => {
@@ -123,8 +103,8 @@ function FlowEditor({ i18n }: GeneralI18nProps) {
   const reactFlowWrapper = useRef<HTMLDivElement>(null);
   const [reactFlowInstance, setReactFlowInstance] = useState<ReactFlowInstance | null>(null);
 
-  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
-  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+  const [nodes, setNodes, onNodesChange] = useNodesState<Node[]>([]);
+  const [edges, setEdges, onEdgesChange] = useEdgesState<Edge[]>([]);
 
   const onConnect = useCallback((params: Connection) => {
     setEdges((els) => addEdge(params, els));
@@ -155,7 +135,7 @@ function FlowEditor({ i18n }: GeneralI18nProps) {
         x: event.clientX - reactFlowBounds.left,
         y: event.clientY - reactFlowBounds.top,
       });
-      const newNode = {
+      const newNode: Node = {
         id: getId(),
         type,
         position,
