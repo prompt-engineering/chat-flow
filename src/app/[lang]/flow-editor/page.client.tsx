@@ -197,7 +197,7 @@ function FlowEditor({ i18n }: GeneralI18nProps) {
 
   const generateYaml = () => {
     const yaml = flowToYaml(nodes, edges);
-    console.log(yaml);
+    navigator.clipboard.writeText(yaml).then(r => alert("Copied to clipboard"));
   };
 
   return (
