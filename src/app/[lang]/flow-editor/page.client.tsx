@@ -11,6 +11,7 @@ import ReactFlow, {
   useNodesState,
   ReactFlowProvider,
   useStore,
+  MiniMap,
 } from "reactflow";
 import { Container } from "@chakra-ui/react";
 import styled from "@emotion/styled";
@@ -39,8 +40,10 @@ export function DebugBar({ nodes, setNodes }: { nodes: any[]; setNodes: any }) {
 
 const StyledDebugBar = styled.div`
   position: absolute;
-  bottom: 0;
-  right: 0;
+  bottom: 20px;
+  right: 300px;
+
+  font-size: 12px;
 `;
 
 const initialNodes = [
@@ -109,6 +112,18 @@ function FlowEditor({ i18n }: GeneralI18nProps) {
         </ReactFlow>
 
         <DebugBar nodes={nodes} setNodes={setNodes} />
+
+        <MiniMap
+          nodeStrokeColor={(n: any) => {
+            if (n.type === "input") return "#0041d0" as any;
+            if (n.type === "selectorNode") return "#000" as any;
+            if (n.type === "output") return "#ff0072" as any;
+          }}
+          nodeColor={(n) => {
+            if (n.type === "selectorNode") return "#000";
+            return "#fff";
+          }}
+        />
       </StyledFlowProvider>
     </StyledContainer>
   );
