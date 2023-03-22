@@ -28,14 +28,14 @@ Online Demo: https://prompt.phodal.com/
     - 设置 Planetscale 数据库的 URL：`DATABASE_URL='mysql://{user}:{password}@{host}/{db}?ssl={"rejectUnauthorized":false&sslcert=/etc/ssl/certs/ca-certificates.crt}'`。
     - 使用 `node scripts/gen-enc.js` 生成加密密钥，并将其设置为 `ENC_KEY`。
 
-完成这些步骤后，您的 ChatFlow 将在 Vercel 上部署，并使用 Planetscale 的无服务器 MySQL 数据库。
+完成这些步骤后，您的 ChatFlow 将在 Vercel 上部署，并使用 Planetscale 的 Serverless MySQL 数据库。
 
-## 本地使用
+## 本地搭建
 
 1. 从 GitHub 克隆 [ChatFlow 模板](https://github.com/prompt-engineering/chat-flow)。
 2. 暂时仍依赖 Planetscale 服务，按照上小节注册，并配置`DATABASE_URL`到.env 文件。
 3. 执行 `npm install`。
-4. 使用 `node scripts/gen-enc.js` 生成加密密钥，在 `.env` 文件中配置 `ENV_KEY=***` 的形式。（PS：`.env` 文件可以从 env.template 复制过去）
+4. 使用 `node scripts/gen-enc.js` 生成加密密钥，在 `.env` 文件中配置 `ENC_KEY=***` 的形式。（PS：`.env` 文件可以从 env.template 复制过去）
 5. 直接运行 `npm run dev` 就可以使用了。
 
 # Create new Flow
@@ -57,8 +57,13 @@ Technical documentation:
 - Flow Components
   - JsonViewer, render json data
   - DataTable, render table data
+- Flow Editor
+  - ReactFlow, render graph data
+- Repl Server
+  - Rx.js, handle websocket
 - Others
   - MarkdownViewer, render markdown data
+  - MermaidViewer, render mermaid data
 
 ## LICENSE
 

@@ -16,7 +16,9 @@ Join us:
 
 [![Chat Server](https://img.shields.io/badge/chat-discord-7289da.svg)](https://discord.gg/FSWXq4DmEj)
 
-# Deploy ChatFlow on Vercel with Planetscale
+# Deploy
+
+## Deploy ChatFlow on Vercel with Planetscale
 
 Follow these steps to deploy ChatFlow on Vercel with a serverless MySQL database provided by Planetscale:
 
@@ -32,6 +34,14 @@ Follow these steps to deploy ChatFlow on Vercel with a serverless MySQL database
     - Generate an encryption key with `node scripts/gen-enc.js` and set it as `ENC_KEY`.
 
 With these steps completed, your ChatFlow will be deployed on Vercel with a Planetscale serverless MySQL database.
+
+## Local Usage
+
+1.  Clone the [ChatFlow template](https://github.com/prompt-engineering/chat-flow) from GitHub.
+2.  Dependencies on Planetscale services still exist temporarily. Please register as mentioned in the previous section and configure `DATABASE_URL` in the `.env` file.
+3.  Run `npm install`.
+4.  Generate an encryption key using `node scripts/gen-enc.js` and configure it in the `.env` file in the format `ENC_KEY=***`. (Note: You can copy the `.env` file from env.template)
+5.  You can now use the application by running `npm run dev`.
 
 # Create new Flow
 
@@ -52,8 +62,13 @@ Technical documentation:
 - Flow Components
   - JsonViewer, render json data
   - DataTable, render table data
+- Flow Editor
+  - ReactFlow, render graph data
+- Repl Server
+  - Rx.js, handle websocket
 - Others
   - MarkdownViewer, render markdown data
+  - MermaidViewer, render mermaid data
 
 ## LICENSE
 
