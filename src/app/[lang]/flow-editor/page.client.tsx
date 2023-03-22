@@ -21,14 +21,13 @@ import { OnConnectStartParams } from "@reactflow/core/dist/esm/types/general";
 import "reactflow/dist/style.css";
 import { shallow } from "zustand/shallow";
 import useRfStore from "@/flows/store";
+import { uuidv4 } from "lib0/random";
 
 const transformSelector = (state: any) => state.transform;
 
 const NavbarHeight = 60;
 
 export function DebugBar({ nodes }: { nodes: any[] }) {
-  console.log(nodes);
-
   const transform = useStore(transformSelector);
 
   return (
@@ -111,8 +110,7 @@ const StyledSidebar = styled.aside`
   }
 `;
 
-let id = 0;
-const getId = () => `dndnode_${id++}`;
+const getId = () => uuidv4();
 
 const nodeTypes = {
   stepNode: StepNode,
