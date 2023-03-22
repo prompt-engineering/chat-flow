@@ -14,12 +14,14 @@ import ReactFlow, {
   MiniMap,
   ReactFlowInstance,
 } from "reactflow";
-import { Container } from "@chakra-ui/react";
+import { Container, Text } from "@chakra-ui/react";
 import styled from "@emotion/styled";
 import "reactflow/dist/style.css";
 import StepNode from "@/flows/react-flow-nodes/StepNode";
 
 const transformSelector = (state: any) => state.transform;
+
+const NavbarHeight = 60;
 
 export function DebugBar({ nodes, setNodes }: { nodes: any[]; setNodes: any }) {
   const transform = useStore(transformSelector);
@@ -69,6 +71,48 @@ const initialEdges = [
   },
   { id: "provider-e1-3", source: "provider-1", target: "provider-3" },
 ];
+
+export function Sidebar() {
+  const onDragStart = (event: any, nodeType: string) => {
+    event.dataTransfer.setData("application/reactflow", nodeType);
+    event.dataTransfer.effectAllowed = "move";
+  };
+
+  return (
+    <StyledSidebar>
+      <Text>You can drag these nodes to the pane on the right.</Text>
+      <div className='dndnode' onDragStart={(event) => onDragStart(event, "stepNode")} draggable>
+        Step
+      </div>
+    </StyledSidebar>
+  );
+}
+
+const StyledSidebar = styled.aside`
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 200px;
+  height: 100vh - ${NavbarHeight}px;
+  background: #fff;
+  border-right: 2px solid #ddd;
+  box-shadow: 2px 0px 4px rgba(0, 0, 0, 0.1);
+
+  .dndnode {
+    height: 40px;
+    width: 120px;
+    padding: 4px;
+    border-radius: 2px;
+    margin: 0 auto 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: grab;
+
+    border: 2px solid #0041d0;
+  }
+`;
 
 let id = 0;
 const getId = () => `dndnode_${id++}`;
@@ -146,6 +190,7 @@ function FlowEditor({ i18n }: GeneralI18nProps) {
           <Controls />
         </ReactFlow>
 
+        <Sidebar />
         <DebugBar nodes={nodes} setNodes={setNodes} />
 
         <MiniMap
@@ -166,8 +211,9 @@ function FlowEditor({ i18n }: GeneralI18nProps) {
 
 const StyledContainer = styled(Container)`
   width: 100vw;
-  height: calc(100vh - 60px);
-  margin-top: 60px;
+  height: calc(100vh - ${NavbarHeight}px);
+  margin-top: ${NavbarHeight}px;
+  margin-left: 200px;
   min-width: 100%;
 `;
 
