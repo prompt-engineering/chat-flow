@@ -39,7 +39,7 @@ import yml from "js-yaml";
  * ```
  */
 export function flowToYaml(nodes: Node[], edges: Edge[]) {
-  let explain = 'digraph G {\n';
+  let explain = "digraph G {\n";
   const steps: FlowStep[] = [];
 
   nodes.forEach((node) => {
@@ -52,7 +52,7 @@ export function flowToYaml(nodes: Node[], edges: Edge[]) {
     explain += `  "${edge.source}" -> "${edge.target}"\n`;
   });
 
-  explain += '}\n';
+  explain += "}\n";
 
   const yamlOutput = yml.dump({ explain, steps: steps });
 

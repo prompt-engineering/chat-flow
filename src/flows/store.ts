@@ -74,11 +74,10 @@ const useRfStore = create(
     }),
     {
       name: "flow",
-      partialize: (state: any) =>
-        ({
-          nodes: state.nodes,
-          edges: state.edges,
-        }),
+      partialize: (state: any) => ({
+        nodes: state.nodes,
+        edges: state.edges,
+      }),
     },
   ),
 );

@@ -188,7 +188,7 @@ function FlowEditor({ i18n }: GeneralI18nProps) {
           type: "stepNode",
         };
 
-        addNode(newNode)
+        addNode(newNode);
         addEdge({ id, source: connectingNodeId.current, target: id } as unknown as Edge);
       }
     },
@@ -197,7 +197,7 @@ function FlowEditor({ i18n }: GeneralI18nProps) {
 
   const generateYaml = () => {
     const yaml = flowToYaml(nodes, edges);
-    navigator.clipboard.writeText(yaml).then(r => alert("Copied to clipboard"));
+    navigator.clipboard.writeText(yaml).then((r) => alert("Copied to clipboard"));
   };
 
   return (
@@ -253,4 +253,3 @@ const StyledFlowProvider = styled(ReactFlowProvider)`
 `;
 
 export default FlowEditor;
-
