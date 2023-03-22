@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useRef } from "react";
+import React, { useCallback, useRef, useState } from "react";
 import ReactFlow, {
   addEdge,
   Background,
@@ -12,10 +12,12 @@ import ReactFlow, {
   ReactFlowProvider,
   useStore,
   MiniMap,
+  ReactFlowInstance,
 } from "reactflow";
 import { Container } from "@chakra-ui/react";
 import styled from "@emotion/styled";
 import "reactflow/dist/style.css";
+import StepNode from "@/flows/react-flow-nodes/StepNode";
 
 const transformSelector = (state: any) => state.transform;
 
@@ -55,7 +57,7 @@ const initialNodes = [
   },
   { id: "provider-2", data: { label: "Node 2" }, position: { x: 100, y: 100 } },
   { id: "provider-3", data: { label: "Node 3" }, position: { x: 400, y: 100 } },
-  { id: "provider-4", data: { label: "Node 4" }, position: { x: 400, y: 200 } },
+  { id: "provider-4", data: { label: "Node 4" }, position: { x: 400, y: 200 }, type: "stepNode" },
 ];
 
 const initialEdges = [
@@ -68,10 +70,15 @@ const initialEdges = [
   { id: "provider-e1-3", source: "provider-1", target: "provider-3" },
 ];
 
+let id = 0;
+const getId = () => `dndnode_${id++}`;
+
 function FlowEditor({ i18n }: GeneralI18nProps) {
   const dict = i18n.dict;
 
-  const reactFlowWrapper = useRef(null);
+  const reactFlowWrapper = useRef<HTMLDivElement>(null);
+  const [reactFlowInstance, setReactFlowInstance] = useState<ReactFlowInstance | null>(null);
+
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
 
@@ -88,9 +95,33 @@ function FlowEditor({ i18n }: GeneralI18nProps) {
     event.dataTransfer.dropEffect = "move";
   }, []);
 
-  const onDrop = useCallback((event: React.DragEvent) => {
-    event.preventDefault();
-  }, []);
+  const onDrop = useCallback(
+    (event: React.DragEvent) => {
+      event.preventDefault();
+
+      const reactFlowBounds = reactFlowWrapper.current!.getBoundingClientRect();
+      const type = event.dataTransfer.getData("application/reactflow");
+
+      // check if the dropped element is valid
+      if (typeof type === "undefined" || !type) {
+        return;
+      }
+
+      const position = reactFlowInstance!.project({
+        x: event.clientX - reactFlowBounds.left,
+        y: event.clientY - reactFlowBounds.top,
+      });
+      const newNode = {
+        id: getId(),
+        type,
+        position,
+        data: { label: `${type} node` },
+      };
+
+      setNodes((nds) => nds.concat(newNode));
+    },
+    [reactFlowInstance],
+  );
 
   return (
     <StyledContainer ref={reactFlowWrapper}>
@@ -100,9 +131,13 @@ function FlowEditor({ i18n }: GeneralI18nProps) {
           onMove={() => {
             console.log("////");
           }}
+          nodeTypes={{
+            stepNode: StepNode,
+          }}
           edges={edges}
           onNodesChange={onNodesChange}
           onEdgesChange={onEdgesChangeMod}
+          onInit={setReactFlowInstance}
           onConnect={onConnect}
           onDragOver={onDragOver}
           onDrop={onDrop}
