@@ -25,7 +25,7 @@ Online Demo: https://prompt.phodal.com/
     2.  使用 `pscale password create <DATABASE_NAME> <BRANCH_NAME> <PASSWORD_NAME>` 创建密码。
     3.  使用 `npx prisma db push` 将数据库推送到 Planetscale。
 5.  配置 Vercel 环境：
-    - 将 `DATABASE_URL` 设置为 Planetscale 数据库的 URL。
+    - 设置 Planetscale 数据库的 URL：`DATABASE_URL='mysql://{user}:{password}@{host}/{db}?ssl={"rejectUnauthorized":false&sslcert=/etc/ssl/certs/ca-certificates.crt}'`。
     - 使用 `node scripts/gen-enc.js` 生成加密密钥，并将其设置为 `ENC_KEY`。
 
 完成这些步骤后，您的 ChatFlow 将在 Vercel 上部署，并使用 Planetscale 的无服务器 MySQL 数据库。
@@ -33,9 +33,10 @@ Online Demo: https://prompt.phodal.com/
 ## 本地使用
 
 1. 从 GitHub 克隆 [ChatFlow 模板](https://github.com/prompt-engineering/chat-flow)。
-2. 执行 `npm install`。
-3. 使用 `node scripts/gen-enc.js` 生成加密密钥，在 `.env` 文件中配置 `ENV_KEY=***` 的形式。（PS：`.env` 文件可以从 env.template 复制过去）
-4. 直接运行 `npm run dev` 就可以使用了。
+2. 暂时仍依赖Planetscale服务，按照上小节注册，并配置`DATABASE_URL`到.env文件。
+3. 执行 `npm install`。
+4. 使用 `node scripts/gen-enc.js` 生成加密密钥，在 `.env` 文件中配置 `ENV_KEY=***` 的形式。（PS：`.env` 文件可以从 env.template 复制过去）
+5. 直接运行 `npm run dev` 就可以使用了。
 
 # Create new Flow
 
