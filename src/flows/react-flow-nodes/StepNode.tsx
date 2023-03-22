@@ -30,7 +30,7 @@ function StepNode(props: TextNodeProps) {
   return (
     <TextNodeStyle>
       <Handle type='target' position={Position.Left} isConnectable={isConnectable} />
-      <CardTitle>Prompt</CardTitle>
+      <CardTitle>Step</CardTitle>
 
       <form onSubmit={formik.handleSubmit}>
         <FormControl id='name'>
@@ -84,7 +84,7 @@ const TextNodeStyle = styled.div`
 
 const CardTitle = styled.div`
   display: block;
-  height: 20px;
+  height: 30px;
   width: ${width - 2}px;
   background: #eee;
 
@@ -94,19 +94,9 @@ const CardTitle = styled.div`
   border-bottom-width: 1px;
   border-bottom-style: solid;
   border-color: #555555;
-  font-size: 10px;
+  font-size: 18px;
   text-align: center;
   font-weight: bold;
-`;
-
-const Title = styled.div`
-  padding: 0 2px;
-  border-color: #eee;
-  display: block;
-  width: 120px;
-  overflow-y: auto;
-  font-size: 12px;
-  text-align: center;
 `;
 
 export default StepNode;
