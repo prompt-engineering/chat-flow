@@ -9,25 +9,27 @@ import { FlowStep } from "@/flows/types/flow-step";
 type TextNodeProps = {
   isConnectable: boolean;
   id: string;
-  data: { label: string };
+  data: { label: string, step?: FlowStep };
 };
 
 function StepNode(props: TextNodeProps) {
   const updateNode = useRfStore((state) => state.updateNodeStep);
 
   const { isConnectable } = props;
+  const defaultValue: FlowStep = props.data.step ? props.data.step : {
+    name: "",
+    ask: "",
+    response: "",
+    hiddenExecute: false,
+    markdownEditor: false,
+    cachedResponseRegex: "",
+    values: {},
+    preActions: [],
+    postActions: [],
+  };
+
   const formik = useFormik({
-    initialValues: {
-      name: "",
-      ask: "",
-      response: "",
-      hiddenExecute: false,
-      markdownEditor: false,
-      cachedResponseRegex: "",
-      values: {},
-      preActions: [],
-      postActions: [],
-    } as FlowStep,
+    initialValues: defaultValue,
     onSubmit: (values) => {
       // we config to onChange to trigger this method
       updateNode(props.id, values);
