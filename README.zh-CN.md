@@ -33,7 +33,7 @@ Online Demo: https://prompt.phodal.com/
 ## 本地使用
 
 1. 从 GitHub 克隆 [ChatFlow 模板](https://github.com/prompt-engineering/chat-flow)。
-2. 暂时仍依赖Planetscale服务，按照上小节注册，并配置`DATABASE_URL`到.env文件。
+2. 暂时仍依赖 Planetscale 服务，按照上小节注册，并配置`DATABASE_URL`到.env 文件。
 3. 执行 `npm install`。
 4. 使用 `node scripts/gen-enc.js` 生成加密密钥，在 `.env` 文件中配置 `ENV_KEY=***` 的形式。（PS：`.env` 文件可以从 env.template 复制过去）
 5. 直接运行 `npm run dev` 就可以使用了。
