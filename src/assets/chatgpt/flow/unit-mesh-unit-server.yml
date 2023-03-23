@@ -64,6 +64,7 @@ steps:
 
       请格式返回。
   - name: Kotlin Ktor Sample
+    hiddenExecute: true
     ask: |
       下面的代码是 AI 生成的，不过好像有点问题：
 
@@ -148,6 +149,7 @@ steps:
       ```
 
   - name: Kotlin Spring Sample
+    hiddenExecute: true
     ask: |
       ```kotlin
       // SLf4j 1.7 can accidentially be pulled in using Spring Boot 3 leading to exceptions
