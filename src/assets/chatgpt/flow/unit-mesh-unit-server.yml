@@ -1,4 +1,4 @@
-name: REPL Code Kotlin
+name: UnitMesh - UnitServer Demo
 category: Development
 author: Phodal Huang
 description: REPL Service for ClickFlow
@@ -20,7 +20,7 @@ steps:
   - name: Setup REPL
     hiddenExecute: true
     ask: |
-      首先，你需要 Setup 一下 FlowRepl: [https://github.com/prompt-engineering/flow-repl](https://github.com/prompt-engineering/flow-repl)
+      首先，你需要 Setup 一下 FlowRepl: [https://github.com/prompt-engineering/unit-server](https://github.com/prompt-engineering/unit-server)
 
       然后，启动对应的 REPL 服务，例如:
 
