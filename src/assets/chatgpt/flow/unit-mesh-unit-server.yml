@@ -67,7 +67,7 @@ steps:
       下面的代码是 AI 生成的，不过好像有点问题：
 
       ```kotlin
-      %use ktor, spring, exposed
+      %use kotless, exposed
 
       data class User(val id: Int, val username: String)
 
@@ -80,6 +80,14 @@ steps:
               }
 
               app.routing {
+                  get("/users") {
+                      val users = transaction {
+                          Users.selectAll().map {
+                              User(it[Users.id], it[Users.username])
+                          }
+                      }
+                      call.respond(users)
+                  }
                   post("/register") {
                       val user = call.receive<User>()
                       val id = transaction {
@@ -108,8 +116,7 @@ steps:
     hiddenExecute: true
     ask: |
       ```kotlin
-      %use spring
-      import java.util.*
+      %use spring, kotless
 
       @RestController
       class SampleController {
