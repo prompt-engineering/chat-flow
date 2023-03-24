@@ -2,6 +2,7 @@ import "@/app/globals.css";
 import React from "react";
 import NavBar from "@/layout/NavBar";
 import { Provider } from "@/components/ChakraUI/Provider";
+import { Analytics } from '@vercel/analytics/react';
 
 type RootLayoutProps = {
   params: {
@@ -34,6 +35,8 @@ export default function RootLayout({ params, children }: RootLayoutProps) {
           </div>
           {children}
         </Provider>
+
+        <Analytics />
       </body>
     </html>
   );
