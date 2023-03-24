@@ -61,41 +61,13 @@ steps:
           }
       }
       ```
-
-      请格式返回。
   - name: Kotlin Ktor Sample
     hiddenExecute: true
     ask: |
       下面的代码是 AI 生成的，不过好像有点问题：
 
       ```kotlin
-      @file:Repository("https://packages.jetbrains.team/maven/p/ktls/maven")
-      @file:Repository("https://repo.maven.apache.org/maven2/")
-
-      @file:DependsOn("io.kotless:kotless-lang:0.2.0")
-      @file:DependsOn("io.kotless:kotless-lang-local:0.2.0")
-      @file:DependsOn("io.kotless:ktor-lang:0.2.0")
-      @file:DependsOn("io.kotless:ktor-lang-local:0.2.0")
-
-      @file:DependsOn("com.h2database:h2:2.1.212")
-
-      @file:DependsOn("org.jetbrains.exposed:exposed-core:0.40.1")
-      @file:DependsOn("org.jetbrains.exposed:exposed-dao:0.40.1")
-      @file:DependsOn("org.jetbrains.exposed:exposed-jdbc:0.40.1")
-
-      import io.kotless.dsl.ktor.KotlessAWS
-      import kotlin.reflect.full.primaryConstructor
-
-      import io.ktor.application.*
-      import io.ktor.request.*
-      import io.ktor.response.*
-      import io.ktor.routing.*
-      import io.ktor.server.engine.*
-      import io.ktor.server.netty.*
-      import org.jetbrains.exposed.sql.Database
-      import org.jetbrains.exposed.sql.SchemaUtils
-      import org.jetbrains.exposed.sql.insert
-      import org.jetbrains.exposed.sql.transactions.transaction
+      %use ktor, spring, exposed
 
       data class User(val id: Int, val username: String)
 
@@ -152,20 +124,7 @@ steps:
     hiddenExecute: true
     ask: |
       ```kotlin
-      // SLf4j 1.7 can accidentially be pulled in using Spring Boot 3 leading to exceptions
-      // https://github.com/spring-projects/spring-boot/issues/33854
-      @file:DependsOn("org.springframework.boot:spring-boot-starter-web:2.7.9")
-      // logging.level.org.springframework.boot.autoconfigure=INFO
-      //@file:CompilerOptions("-jvm-target", "1.8", "-Xabi-stability=unstable")
-      //@file:DependsOn("ch.qos.logback:logback-classic:1.3.4", options = ["transitive=false"])
-      //@file:DependsOn("org.apache.logging.log4j:log4j-slf4j-impl:2.20.0")
-      package sample
-
-      import org.springframework.boot.*
-      import org.springframework.boot.autoconfigure.*
-      import org.springframework.context.annotation.ComponentScan
-      import org.springframework.context.annotation.Configuration
-      import org.springframework.web.bind.annotation.*
+      %use spring
       import java.util.*
 
       @RestController

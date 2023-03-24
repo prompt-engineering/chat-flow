@@ -2,7 +2,7 @@ import "@/app/globals.css";
 import React from "react";
 import NavBar from "@/layout/NavBar";
 import { Provider } from "@/components/ChakraUI/Provider";
-import { Analytics } from '@vercel/analytics/react';
+import { Analytics } from "@vercel/analytics/react";
 
 type RootLayoutProps = {
   params: {
