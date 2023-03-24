@@ -102,22 +102,6 @@ steps:
 
           override val primaryKey = PrimaryKey(id, name = "PK_User_ID")
       }
-
-      fun main(port: Int) {
-          val classToStart = Server::class.java.name
-
-          val ktClass = ::main::class.java.classLoader.loadClass(classToStart).kotlin
-          val instance = (ktClass.primaryConstructor?.call() ?: ktClass.objectInstance) as? KotlessAWS
-
-          val kotless =
-              instance ?: error("The entry point $classToStart does not inherit from ${KotlessAWS::class.qualifiedName}!")
-
-          embeddedServer(Netty, port) {
-              kotless.prepare(this)
-          }.start(wait = true)
-      }
-
-      main(8848)
       ```
 
   - name: Kotlin Spring Sample
@@ -134,15 +118,4 @@ steps:
           return "hello world"
         }
       }
-
-      @Configuration
-      @ComponentScan(basePackageClasses = [SampleController::class])
-      @SpringBootApplication
-      open class ReplApplication
-
-      fun main(args: Array<String>) {
-        SpringApplication(ReplApplication::class.java).run(*args)
-      }
-
-      main(arrayOf("--server.port=8083"))
       ```
