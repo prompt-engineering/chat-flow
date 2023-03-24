@@ -19,11 +19,6 @@ export interface ErrorContent {
   message: string;
 }
 
-export interface CellItem {
-  id: string;
-  code: string;
-}
-
 export interface UnitServerContent {
   url: string;
 }

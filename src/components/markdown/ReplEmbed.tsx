@@ -1,20 +1,20 @@
 import { ReplService } from "@/flows/unitmesh/ReplService";
 import React, { useCallback, useState } from "react";
 import { ReplResult } from "@/flows/unitmesh/ascode";
-import { Box, Button, Textarea } from "@chakra-ui/react";
-import { Text } from "@chakra-ui/layout";
+import { Button, Link, SimpleGrid, Textarea, Text } from "@chakra-ui/react";
 
 export function ReplEmbed({ code, repl }: { code: string; repl: ReplService }) {
-  const [result, setResult] = useState<string | undefined>(undefined);
+  const [result, setResult] = useState<ReplResult | undefined>(undefined);
   const [isRunning, setIsRunning] = useState(false);
+  const [error, setError] = useState<string | undefined>(undefined);
 
   repl.getSubject().subscribe({
     next: (msg: ReplResult) => {
-      setResult(JSON.stringify(msg));
+      setResult(msg);
       setIsRunning(false);
     },
     error: () => {
-      setResult("Error");
+      setError("Error");
       setIsRunning(false);
     },
     complete: () => {
@@ -27,11 +27,22 @@ export function ReplEmbed({ code, repl }: { code: string; repl: ReplService }) {
     repl.eval(code, -1);
   }, [setIsRunning, repl]);
 
+
+  function displayResult(result: ReplResult) {
+    if (result.content.hasOwnProperty("url")) {
+      const url = (result.content as any)["url"];
+      return <Text>Online URL: <Link href={ url } isExternal={ true }>{ url }</Link></Text>;
+    }
+
+    return <Textarea defaultValue={ JSON.stringify(result) }></Textarea>;
+  }
+
   return (
-    <Box>
-      <Button onClick={runAllCell}>Run</Button>
-      {isRunning && <Text>Running...</Text>}
-      {result && <Textarea defaultValue={result}></Textarea>}
-    </Box>
+    <SimpleGrid columns={ { md: 4 } } spacing={ 4 }>
+      <Button onClick={ runAllCell }>Run</Button>
+      { isRunning && <Text>Running...</Text> }
+      { result && displayResult(result) }
+      { error && <Text>{ error }</Text> }
+    </SimpleGrid>
   );
 }
