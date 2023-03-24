@@ -27,22 +27,28 @@ export function ReplEmbed({ code, repl }: { code: string; repl: ReplService }) {
     repl.eval(code, -1);
   }, [setIsRunning, repl]);
 
-
   function displayResult(result: ReplResult) {
     if (result.content && result.content.hasOwnProperty("url")) {
       const url = (result.content as any)["url"];
-      return <Text>Online URL: <Link href={ url } isExternal={ true }>{ url }</Link></Text>;
+      return (
+        <Text>
+          Online URL:{" "}
+          <Link href={url} isExternal={true}>
+            {url}
+          </Link>
+        </Text>
+      );
     }
 
-    return <Textarea defaultValue={ JSON.stringify(result) }></Textarea>;
+    return <Textarea defaultValue={JSON.stringify(result)}></Textarea>;
   }
 
   return (
-    <Flex flexDirection={"row"} gap={ 4 }>
-      <Button onClick={ runAllCell }>Run</Button>
-      { isRunning && <Text>Running...</Text> }
-      { result && displayResult(result) }
-      { error && <Text>{ error }</Text> }
+    <Flex flexDirection={"row"} gap={4}>
+      <Button onClick={runAllCell}>Run</Button>
+      {isRunning && <Text>Running...</Text>}
+      {result && displayResult(result)}
+      {error && <Text>{error}</Text>}
     </Flex>
   );
 }
