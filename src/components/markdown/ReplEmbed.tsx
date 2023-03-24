@@ -1,7 +1,7 @@
 import { ReplService } from "@/flows/unitmesh/ReplService";
 import React, { useCallback, useState } from "react";
 import { ReplResult } from "@/flows/unitmesh/ascode";
-import { Button, Link, SimpleGrid, Textarea, Text } from "@chakra-ui/react";
+import { Button, Link, SimpleGrid, Textarea, Text, Grid, Flex } from "@chakra-ui/react";
 
 export function ReplEmbed({ code, repl }: { code: string; repl: ReplService }) {
   const [result, setResult] = useState<ReplResult | undefined>(undefined);
@@ -29,7 +29,7 @@ export function ReplEmbed({ code, repl }: { code: string; repl: ReplService }) {
 
 
   function displayResult(result: ReplResult) {
-    if (result.content.hasOwnProperty("url")) {
+    if (result.content && result.content.hasOwnProperty("url")) {
       const url = (result.content as any)["url"];
       return <Text>Online URL: <Link href={ url } isExternal={ true }>{ url }</Link></Text>;
     }
@@ -38,11 +38,11 @@ export function ReplEmbed({ code, repl }: { code: string; repl: ReplService }) {
   }
 
   return (
-    <SimpleGrid columns={ { md: 4 } } spacing={ 4 }>
+    <Flex flexDirection={"row"} gap={ 4 }>
       <Button onClick={ runAllCell }>Run</Button>
       { isRunning && <Text>Running...</Text> }
       { result && displayResult(result) }
       { error && <Text>{ error }</Text> }
-    </SimpleGrid>
+    </Flex>
   );
 }
