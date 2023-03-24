@@ -6,7 +6,7 @@ export enum MsgType {
   UNIT_SERVER = "unit_server",
 }
 
-export interface UnitServerResult {
+export interface ReplResult {
   id: number;
   resultValue: string;
   className: string;

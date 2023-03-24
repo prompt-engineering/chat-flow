@@ -1,9 +1,9 @@
 import { Subject } from "rxjs";
 import { WebSocketSubject } from "rxjs/internal/observable/dom/WebSocketSubject";
 
-import { UnitServerResult } from "./ascode";
+import { ReplResult } from "./ascode";
 
-export class ReplWebSocketService {
+export class ReplService {
   private subject: WebSocketSubject<any>;
   private idSubjectMap: Record<number, Subject<any>> = {};
   private codes: Record<number, string> = {};
@@ -19,7 +19,7 @@ export class ReplWebSocketService {
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     const that = this;
     this.subject.subscribe({
-      next: (msg: UnitServerResult) => {
+      next: (msg: ReplResult) => {
         if (that.idSubjectMap[msg.id] != null) {
           const sub: Subject<any> = that.idSubjectMap[msg.id];
           sub.next(msg);

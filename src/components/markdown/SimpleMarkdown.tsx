@@ -10,7 +10,7 @@ import { Table, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/table";
 import { chakra } from "@chakra-ui/system";
 import remarkGfm from "remark-gfm";
 import MermaidWrapper from "./MermaidWrapper";
-import { ReplService } from "@/flows/repl/ReplService";
+import { ReplService } from "@/flows/unitmesh/ReplService";
 import { ReplEmbed } from "@/components/markdown/ReplEmbed";
 
 // MIT License
