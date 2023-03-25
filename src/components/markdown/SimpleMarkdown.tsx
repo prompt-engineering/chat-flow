@@ -152,7 +152,7 @@ export const defaults: Defaults = {
 
 type SimpleMarkdownProps = {
   content: string;
-  replService?: ReplService | undefined
+  replService?: ReplService | undefined;
   index?: number;
 };
 

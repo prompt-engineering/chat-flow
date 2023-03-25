@@ -91,7 +91,13 @@ function StartlingStepDetail({
       <HumanBlock direction='row' justify='space-between'>
         <Avatar bg='teal.500' name={flow.author} size='sm' mr={2} />
         <Box w='100%' h='100%'>
-          <AskRenderer step={step} onAskUpdate={setAsk} cachedValue={cachedValue} replService={replService} index={index}/>
+          <AskRenderer
+            step={step}
+            onAskUpdate={setAsk}
+            cachedValue={cachedValue}
+            replService={replService}
+            index={index}
+          />
         </Box>
         <CopyComponent value={step.ask} />
       </HumanBlock>
