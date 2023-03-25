@@ -9,12 +9,13 @@ import { FlowMarkdownWrapper } from "@/flows/components/FlowMarkdownWrapper";
 
 type AskRendererProps = {
   step: FlowStep;
+  index?: number;
   onAskUpdate: (ask: string) => void;
   cachedValue: Record<number, any>;
   replService?: ReplService | undefined;
 };
 
-export function AskRenderer({ step, onAskUpdate, cachedValue, replService }: AskRendererProps) {
+export function AskRenderer({ step, onAskUpdate, cachedValue, replService, index }: AskRendererProps) {
   const askTask = fillStepWithValued(step, cachedValue);
   const [value, setValue] = React.useState<string>(askTask.ask);
   const ref = useRef<HTMLTextAreaElement>(null);
@@ -59,7 +60,7 @@ export function AskRenderer({ step, onAskUpdate, cachedValue, replService }: Ask
     );
   }
 
-  return <SimpleMarkdown content={step.ask} replService={replService} />;
+  return <SimpleMarkdown content={step.ask} replService={replService} index={index} />;
 }
 
 const StyledTextarea = styled(Textarea)`

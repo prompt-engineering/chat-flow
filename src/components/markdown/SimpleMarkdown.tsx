@@ -150,8 +150,14 @@ export const defaults: Defaults = {
   th: (props) => <Th>{props.children}</Th>,
 };
 
-function SimpleMarkdown({ content, replService }: { content: string; replService?: ReplService | undefined }) {
-  function getHighlighter(match: RegExpExecArray, props: any, children: any) {
+type SimpleMarkdownProps = {
+  content: string;
+  replService?: ReplService | undefined
+  index?: number;
+};
+
+function SimpleMarkdown({ content, replService, index }: SimpleMarkdownProps) {
+  function getHighlighter(match: RegExpExecArray, props: any, children: any, index?: number) {
     const language = match[1];
     if (language == "mermaid") {
       return <MermaidWrapper graphDefinition={children} />;
@@ -162,7 +168,7 @@ function SimpleMarkdown({ content, replService }: { content: string; replService
         <SyntaxHighlighter showLineNumbers={true} language={language} wrapLongLines={true} {...props}>
           {children}
         </SyntaxHighlighter>
-        {replService && <ReplEmbed code={children} repl={replService} />}
+        {replService && <ReplEmbed code={children} repl={replService} index={index} />}
       </>
     );
   }
@@ -202,7 +208,7 @@ function SimpleMarkdown({ content, replService }: { content: string; replService
             const code = String(children)?.replace(/\n$/, "");
 
             return !inline && match ? (
-              getHighlighter(match, props, code)
+              getHighlighter(match, props, code, index)
             ) : (
               <code className={className + " " + "empty-language"} {...props}>
                 {code}

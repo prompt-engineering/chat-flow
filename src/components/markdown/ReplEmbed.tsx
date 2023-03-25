@@ -1,17 +1,20 @@
-import { ReplService } from "@/flows/unitmesh/ReplService";
 import React, { useCallback, useState } from "react";
-import { ReplResult } from "@/flows/unitmesh/ascode";
-import { Button, Link, SimpleGrid, Textarea, Text, Grid, Flex } from "@chakra-ui/react";
+import { Button, Link, Textarea, Text, Flex } from "@chakra-ui/react";
 
-export function ReplEmbed({ code, repl }: { code: string; repl: ReplService }) {
+import { ReplService } from "@/flows/unitmesh/ReplService";
+import { ReplResult } from "@/flows/unitmesh/ascode";
+
+export function ReplEmbed({ code, repl, index }: { code: string; repl: ReplService, index?: number }) {
   const [result, setResult] = useState<ReplResult | undefined>(undefined);
   const [isRunning, setIsRunning] = useState(false);
   const [error, setError] = useState<string | undefined>(undefined);
 
   repl.getSubject().subscribe({
     next: (msg: ReplResult) => {
-      setResult(msg);
-      setIsRunning(false);
+      if (msg.id == index) {
+        setResult(msg);
+        setIsRunning(false);
+      }
     },
     error: () => {
       setError("Error");
@@ -22,9 +25,9 @@ export function ReplEmbed({ code, repl }: { code: string; repl: ReplService }) {
     },
   });
 
-  const runAllCell = useCallback(() => {
+  const runShell = useCallback(() => {
     setIsRunning(true);
-    repl.eval(code, -1);
+    repl.eval(code, index ?? 0);
   }, [setIsRunning, repl]);
 
   function displayResult(result: ReplResult) {
@@ -45,7 +48,7 @@ export function ReplEmbed({ code, repl }: { code: string; repl: ReplService }) {
 
   return (
     <Flex flexDirection={"row"} gap={4}>
-      <Button onClick={runAllCell}>Run</Button>
+      <Button onClick={runShell}>Run</Button>
       {isRunning && <Text>Running...</Text>}
       {result && displayResult(result)}
       {error && <Text>{error}</Text>}
