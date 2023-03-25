@@ -67,7 +67,7 @@ steps:
       下面的代码是 AI 生成的，不过好像有点问题：
 
       ```kotlin
-      %use kotless, exposed
+      %use kotless, ktor, exposed
 
       data class User(val id: Int, val username: String)
 
