@@ -1,8 +1,9 @@
 import React, { useCallback, useState } from "react";
-import { Button, Link, Textarea, Text, Flex } from "@chakra-ui/react";
+import { Button, Flex, Text } from "@chakra-ui/react";
 
 import { ReplService } from "@/flows/unitmesh/ReplService";
 import { ReplResult } from "@/flows/unitmesh/ascode";
+import { UnitResultDispatcher } from "@/components/UnitRuntime/UnitResultDispatcher";
 
 export function UnitRenderer({ code, repl, index }: { code: string; repl: ReplService; index?: number }) {
   const [result, setResult] = useState<ReplResult | undefined>(undefined);
@@ -30,27 +31,11 @@ export function UnitRenderer({ code, repl, index }: { code: string; repl: ReplSe
     repl.eval(code, index ?? 0);
   }, [setIsRunning, repl]);
 
-  function displayResult(result: ReplResult) {
-    if (result.content && result.content.hasOwnProperty("url")) {
-      const url = (result.content as any)["url"];
-      return (
-        <Text>
-          Online URL:{" "}
-          <Link href={url} isExternal={true}>
-            {url}
-          </Link>
-        </Text>
-      );
-    }
-
-    return <Textarea defaultValue={JSON.stringify(result)}></Textarea>;
-  }
-
   return (
-    <Flex flexDirection={"row"} gap={4}>
+    <Flex flexDirection={"column"} gap={4}>
       <Button onClick={runShell}>Run</Button>
       {isRunning && <Text>Running...</Text>}
-      {result && displayResult(result)}
+      {result && UnitResultDispatcher(result)}
       {error && <Text>{error}</Text>}
     </Flex>
   );

@@ -130,14 +130,27 @@ steps:
     hiddenExecute: true
     ask: |
       ```typescript
-      // %use react, typescript
+      import React, {useState, useEffect} from "react";
+      import ReactDom, {createRoot} from "react-dom/client";
 
-      import React from 'react';
-      import ReactDOM from 'react-dom';
+      function Root() {
+        const [tick, setTick] = useState<number>(0);
 
-      const App = () => {
-        return <div>Hello World</div>;
-      };
+        useEffect(() => {
+          const id = setInterval(() => {
+          setTick(it => it+1);
+        }, 1000);
 
-      ReactDOM.render(<App />, document.getElementById('root'));
+          return () => clearInterval(id);
+        }, []);
+
+        return <>
+          Hello world #{tick}
+        </>;
+      }
+
+      const rootDom = document.createElement("div");
+      document.body.append(rootDom);
+      const root = createRoot(rootDom);
+      root.render(<Root />);
       ```
