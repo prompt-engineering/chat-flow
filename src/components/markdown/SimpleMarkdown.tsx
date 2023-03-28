@@ -11,7 +11,7 @@ import { chakra } from "@chakra-ui/system";
 import remarkGfm from "remark-gfm";
 import MermaidWrapper from "./MermaidWrapper";
 import { ReplService } from "@/flows/unitmesh/ReplService";
-import { ReplEmbed } from "@/components/markdown/ReplEmbed";
+import { UnitRenderer } from "@/components/UnitRuntime/UnitRenderer";
 
 // MIT License
 //
@@ -168,7 +168,7 @@ function SimpleMarkdown({ content, replService, index }: SimpleMarkdownProps) {
         <SyntaxHighlighter showLineNumbers={true} language={language} wrapLongLines={true} {...props}>
           {children}
         </SyntaxHighlighter>
-        {replService && <ReplEmbed code={children} repl={replService} index={index} />}
+        {replService && <UnitRenderer code={children} repl={replService} index={index} />}
       </>
     );
   }

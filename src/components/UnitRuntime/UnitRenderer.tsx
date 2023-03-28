@@ -4,7 +4,7 @@ import { Button, Link, Textarea, Text, Flex } from "@chakra-ui/react";
 import { ReplService } from "@/flows/unitmesh/ReplService";
 import { ReplResult } from "@/flows/unitmesh/ascode";
 
-export function ReplEmbed({ code, repl, index }: { code: string; repl: ReplService; index?: number }) {
+export function UnitRenderer({ code, repl, index }: { code: string; repl: ReplService; index?: number }) {
   const [result, setResult] = useState<ReplResult | undefined>(undefined);
   const [isRunning, setIsRunning] = useState(false);
   const [error, setError] = useState<string | undefined>(undefined);
