@@ -14,6 +14,11 @@ function ReactRenderer({ code, bundle_scripts }: ReactRendererParams) {
       reactLoaderScript.src = bundle_scripts.react;
       reactDomLoaderScript.src = bundle_scripts.reactDom;
 
+      // create div#root
+      const rootDom = document.createElement("div");
+      rootDom.id = "root";
+      ifr?.contentDocument?.body.append(rootDom);
+
       const script = document.createElement("script");
       script.innerHTML = code;
       reactLoaderScript.onload = () => {

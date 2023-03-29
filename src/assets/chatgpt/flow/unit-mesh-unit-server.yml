@@ -126,6 +126,16 @@ steps:
         }
       }
       ```
+  - name: React Hello, World
+    hiddenExecute: true
+    ask: |
+      ```typescript
+      import React, {useState, useEffect} from "react";
+      import ReactDom, {createRoot} from "react-dom/client";
+
+      const root = ReactDOM.createRoot(document.getElementById('root'));
+      root.render(<h1>Hello, world!</h1>);
+      ```
   - name: React Sample
     hiddenExecute: true
     ask: |
@@ -149,8 +159,6 @@ steps:
         </>;
       }
 
-      const rootDom = document.createElement("div");
-      document.body.append(rootDom);
-      const root = createRoot(rootDom);
+      const root = ReactDOM.createRoot(document.getElementById('root'));
       root.render(<Root />);
       ```
