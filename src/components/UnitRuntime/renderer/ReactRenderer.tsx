@@ -38,7 +38,7 @@ function ReactRenderer({ code, bundle_scripts }: ReactRendererParams) {
     }
   }, [code]);
 
-  return <iframe ref={iframe$} style={{ width: "100%", height: "400px" }}></iframe>;
+  return <iframe ref={iframe$} style={{ width: "100%" }}></iframe>;
 }
 
 export default ReactRenderer;
