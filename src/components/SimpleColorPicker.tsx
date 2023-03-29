@@ -4,13 +4,7 @@ import styled from "@emotion/styled";
 import nearestColor from "nearest-color";
 import colorNameList from "color-name-list";
 
-export enum ColorType {
-  HumanSkin = "HumanSkin",
-  Normal = "Normal",
-}
-
 type SimpleColorProps = {
-  colorType?: ColorType;
   initColor?: string;
   updateColor?: (color: string) => void;
 };
