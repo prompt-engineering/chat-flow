@@ -7,9 +7,9 @@ export function UnitServerRenderer(result: ReplResult) {
 
   return (
     <Text>
-      Online URL:{ " " }
-      <Link href={ url } isExternal={ true }>
-        { url }
+      Online URL:{" "}
+      <Link href={url} isExternal={true}>
+        {url}
       </Link>
     </Text>
   );
