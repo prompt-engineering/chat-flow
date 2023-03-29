@@ -1,21 +1,14 @@
 import React from "react";
 
 import { MsgType, ReactBundleContent, ReplResult } from "@/flows/unitmesh/ascode";
-import { Link, Text, Textarea } from "@chakra-ui/react";
+import { Textarea } from "@chakra-ui/react";
 import ReactRenderer from "./renderer/ReactRenderer";
+import { UnitServerRenderer } from "@/components/UnitRuntime/renderer/UnitServerRenderer";
 
 export function UnitResultDispatcher(result: ReplResult) {
   const isReturnUrl = result.content && result.content.hasOwnProperty("url");
   if (isReturnUrl) {
-    const url = (result.content as any)["url"];
-    return (
-      <Text>
-        Online URL:{" "}
-        <Link href={url} isExternal={true}>
-          {url}
-        </Link>
-      </Text>
-    );
+    return UnitServerRenderer(result);
   }
 
   if (result.msgType == MsgType.REACT_BUNDLE) {
